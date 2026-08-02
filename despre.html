@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Despre noi — Surans</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F7F5;
+    --ink:#1C1813;
+    --ink-soft:#9599A0;
+    --terracotta:#565436;
+    --terracotta-deep:#1C1813;
+    --card:#FFFFFF;
+    --line:#E8E7E3;
+    --shadow: 0 4px 14px rgba(28,24,19,0.05);
+    --shadow-hover: 0 10px 26px rgba(28,24,19,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; font-size:15.5px; line-height:1.7; }
+
+  header{ padding:22px 48px; display:flex; justify-content:space-between; align-items:center; background:var(--bg); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; }
+  .wordmark-wrap{ text-decoration:none; }
+  .wordmark{ font-family:'Inter',sans-serif; font-weight:900; font-size:20px; letter-spacing:.1em; color:var(--ink); text-transform:uppercase; }
+  nav{ display:flex; gap:26px; font-size:11.5px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; }
+  nav a{ color:var(--ink); text-decoration:none; }
+  nav a:hover{ color:var(--terracotta); }
+  nav a.active{ border-bottom:1.5px solid var(--ink); padding-bottom:4px; }
+
+  main{ max-width:720px; margin:0 auto; padding:64px 32px 90px; }
+  .eyebrow{ font-size:11.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--terracotta); margin-bottom:16px; text-align:center; }
+  h1{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(30px,4.4vw,44px); line-height:1.15; margin-bottom:36px; text-align:center; color:var(--ink); }
+
+  .story{ background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:40px 44px; }
+  .story p{ margin-bottom:20px; font-size:16px; color:var(--ink); }
+  .story p:last-child{ margin-bottom:0; }
+  .story em{ font-style:italic; color:var(--terracotta); }
+
+  .cta-wrap{ text-align:center; margin-top:40px; }
+  .cta-primary{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--ink); color:#fff; border:none; text-decoration:none;
+    padding:16px 32px; border-radius:2px;
+    font-family:'Inter',sans-serif; font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase;
+  }
+  .cta-primary:hover{ background:var(--terracotta); }
+
+  footer{ padding:26px 48px 50px; font-size:12.5px; color:var(--ink-soft); text-align:center; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark-wrap" href="index.html"><span class="wordmark">Surans</span></a>
+  <nav>
+    <a href="index.html">Index</a>
+    <a href="despre.html" class="active">Despre noi</a>
+  </nav>
+</header>
+
+<main>
+  <div class="eyebrow">De ce există Surans</div>
+  <h1>O poveste despre parfumuri, timp pierdut și o soluție mai bună.</h1>
+
+  <div class="story">
+    <p>Surans a pornit dintr-o pasiune simplă: îmi plac parfumurile. Și, ca orice pasionat, înainte de fiecare achiziție îmi petreceam ore bune căutând — urmăream influenceri, citeam recenzii, comparam note și prețuri de pe zeci de site-uri diferite, doar ca să fiu sigură că fac alegerea potrivită.</p>
+
+    <p>La un moment dat mi-am dat seama că informația exista peste tot, dar nicăieri adunată. Trebuia să sar dintr-un loc în altul ca să înțeleg ce notă are un parfum, dacă ține pe piele, și unde îl găsesc la cel mai bun preț — și de fiecare dată simțeam că pierd timp căutând lucruri care ar trebui să fie la un click distanță.</p>
+
+    <p>Așa a apărut ideea Surans: un loc unde să găsești, într-un singur loc, tot ce ai nevoie ca să alegi un parfum cu încredere — notele lui, ocazia și sezonul potrivite, ce e similar cu ceva ce ai deja, și, la fel de important, unde costă cel mai puțin chiar acum. Pentru că un parfum bun nu trebuie să-ți dea peste cap bugetul ca să fie <em>potrivit pentru tine</em>.</p>
+
+    <p>Nu suntem un magazin, și nici nu vrem să fim — Surans e un ghid, făcut de cineva care a stat exact în locul tău, în fața ecranului, întrebându-se "oare ăsta e cel bun?". Fiecare informație de aici e verificată și datată, iar recomandările noastre rămân mereu obiective, indiferent de unde alegi să cumperi.</p>
+  </div>
+
+  <div class="cta-wrap">
+    <a class="cta-primary" href="index.html">Descoperă arhiva →</a>
+  </div>
+</main>
+
+<footer>SURANS · fiecare specimen e datat și sursat individual · afilierea nu influențează ordinea</footer>
+
+</body>
+</html>

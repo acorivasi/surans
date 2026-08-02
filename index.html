@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surans — Descoperă și compară parfumuri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="data.js"></script>
+<style>
+  :root{
+    --bg:#F7F7F5;
+    --green:#37351B;
+    --terracotta:#565436;
+    --terracotta-deep:#1C1813;
+    --ink:#1C1813;
+    --ink-soft:#9599A0;
+    --card:#FFFFFF;
+    --line:#E8E7E3;
+    --shadow: 0 4px 14px rgba(28,24,19,0.05);
+    --shadow-hover: 0 10px 26px rgba(28,24,19,0.10);
+    --teal:#76A6A3;
+    --gold:#F0BB6E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; font-size:15.5px; line-height:1.6; }
+  .serif{ font-family:'Fraunces',serif; }
+  a{ color:inherit; }
+
+  /* HEADER */
+  header{ padding:22px 48px; display:flex; justify-content:space-between; align-items:center; background:var(--bg); position:sticky; top:0; z-index:30; border-bottom:1px solid var(--line); }
+  .wordmark-wrap{ text-decoration:none; }
+  .wordmark{ font-family:'Inter',sans-serif; font-weight:900; font-size:20px; letter-spacing:.1em; color:var(--ink); display:block; text-transform:uppercase; }
+  .wordmark-sub{ display:none; }
+  nav{ display:flex; gap:26px; font-size:11.5px; font-weight:600; align-items:center; text-transform:uppercase; letter-spacing:.08em; }
+  nav a{ color:var(--ink); text-decoration:none; }
+  nav a.active{ color:var(--ink); border-bottom:1.5px solid var(--ink); padding-bottom:4px; }
+  nav a:hover{ color:var(--terracotta-deep); }
+  .nav-cta{ background:var(--terracotta); color:#fff !important; padding:10px 20px; border-radius:2px; font-weight:700; font-size:11px; letter-spacing:.06em; }
+  .nav-cta:hover{ background:var(--terracotta-deep); }
+
+  /* HERO */
+  .hero{ position:relative; min-height:620px; display:flex; align-items:center; overflow:hidden; }
+  .hero-photo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:0; }
+  .hero-text{ position:relative; z-index:1; max-width:480px; padding:0 5% 0 6%; }
+  .hero-search{ max-width:440px; margin:0 0 26px; padding:6px 6px 6px 22px; }
+  .hero-text .eyebrow{ font-size:11.5px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--terracotta-deep); margin-bottom:18px; }
+  .hero-text h1{ font-family:'Inter',sans-serif; font-weight:900; font-size:clamp(38px,4.8vw,58px); line-height:0.98; margin-bottom:22px; color:var(--ink); text-transform:uppercase; letter-spacing:-.01em; }
+  .hero-text p{ font-size:16px; color:var(--ink-soft); max-width:400px; margin-bottom:28px; }
+
+  .cta-primary{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--terracotta); color:#fff; border:none;
+    padding:16px 32px; border-radius:2px;
+    font-family:'Inter',sans-serif; font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase;
+    cursor:pointer;
+    margin-bottom:26px;
+  }
+  .cta-primary:hover{ background:var(--terracotta-deep); }
+
+  .avatars-row{ display:flex; align-items:center; gap:12px; }
+  .avatars{ display:flex; }
+  .avatars span{ width:34px; height:34px; border-radius:50%; background:var(--terracotta); border:2px solid var(--bg); margin-left:-10px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; }
+  .avatars span:first-child{ margin-left:0; }
+  .avatars-text{ font-size:13px; color:var(--ink-soft); max-width:220px; }
+
+  .quiz-card{ background:var(--card); border-radius:20px; box-shadow:var(--shadow); padding:28px; }
+  .quiz-card .qtitle{ font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:18px; text-align:center; }
+  .quiz-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .quiz-opt{
+    background:var(--bg); border:none; border-radius:14px;
+    padding:18px 16px; cursor:pointer; text-align:left;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .quiz-opt:hover{ transform:translateY(-2px); box-shadow:var(--shadow); }
+  .quiz-opt .qicon{ font-size:19px; margin-bottom:8px; display:block; color:var(--terracotta-deep); }
+  .quiz-opt .qname{ font-weight:700; font-size:14.5px; margin-bottom:2px; color:var(--green); }
+  .quiz-opt .qsub{ font-size:12px; color:var(--ink-soft); }
+  .quiz-more{ display:block; text-align:center; margin-top:18px; font-size:13px; color:var(--terracotta-deep); font-weight:600; text-decoration:none; cursor:pointer; background:none; border:none; width:100%; }
+
+  /* START WITH — doar patratele colorate, zona ramane pe fundalul paginii */
+  .ticker-bar{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:16px 48px; display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-soft); }
+  .ticker-bar .dot{ color:var(--line); }
+  .ticker-bar strong{ color:var(--ink); font-weight:600; }
+  .chip-row-wrap{ padding:36px 48px; }
+  .chip-row{ max-width:1280px; margin:0 auto; display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+  .chip-item{ display:flex; align-items:center; gap:9px; background:var(--card); border:1px solid var(--line); border-radius:30px; padding:12px 22px; cursor:pointer; transition:border-color .15s ease, transform .15s ease; }
+  .chip-item:hover{ border-color:var(--ink); transform:translateY(-1px); }
+  .chip-item .cicon{ font-size:15px; color:var(--terracotta); }
+  .chip-item .cname{ font-size:13.5px; font-weight:600; color:var(--ink); }
+  .startwith-inner{ max-width:1280px; margin:0 auto; }
+  .startwith-title{ text-align:center; color:var(--ink-soft); font-size:12px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; margin-bottom:26px; }
+  .startwith{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+  .sw-card{ background:var(--card); border:1px solid var(--line); border-radius:18px; padding:26px 22px; cursor:pointer; color:var(--ink); transition:border-color .15s ease, transform .15s ease; aspect-ratio:1/1; display:flex; flex-direction:column; position:relative; }
+  .sw-card:hover{ border-color:var(--terracotta); transform:translateY(-2px); }
+  .sw-card .swicon-circle{ width:38px; height:38px; border-radius:50%; background:var(--bg); color:var(--terracotta); display:flex; align-items:center; justify-content:center; font-size:17px; margin-bottom:18px; }
+  .sw-card .swname{ font-family:'Fraunces',serif; font-weight:700; font-size:19px; margin-bottom:6px; letter-spacing:.02em; text-transform:uppercase; }
+  .sw-card .swsub{ font-size:12.5px; opacity:0.9; line-height:1.4; }
+  .sw-arrow{ position:absolute; bottom:20px; right:20px; width:34px; height:34px; border-radius:50%; border:1.5px solid var(--line); color:var(--terracotta); display:flex; align-items:center; justify-content:center; font-size:15px; }
+
+  /* SEARCH */
+  .search-block{ padding:52px 48px 8px; text-align:center; max-width:1280px; margin:0 auto; }
+  .search-block .label{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:16px; }
+  .search{ display:flex; align-items:center; gap:10px; max-width:560px; margin:0 auto; background:var(--card); box-shadow:var(--shadow); border-radius:30px; padding:8px 8px 8px 26px; }
+  .search input{ flex:1; border:none; background:transparent; font-family:'Inter',sans-serif; font-size:15px; outline:none; color:var(--ink); }
+  .search input::placeholder{ color:var(--ink-soft); }
+  .search button{ background:var(--terracotta); border:none; color:#fff; font-size:14px; font-weight:700; padding:13px 26px; border-radius:24px; cursor:pointer; }
+  .search button:hover{ background:var(--terracotta-deep); }
+
+  /* AI DEJA UN PARFUM */
+  .similar-block{ max-width:1280px; margin:24px auto 0; padding:0 48px; }
+  .similar-panel{ background:var(--card); box-shadow:var(--shadow); border-radius:20px; padding:34px 36px; text-align:center; }
+  .similar-panel .stitle{ font-family:'Fraunces',serif; font-weight:700; font-size:22px; margin-bottom:6px; color:var(--green); }
+  .similar-panel .ssub{ font-size:13.5px; color:var(--ink-soft); margin-bottom:22px; }
+  .similar-search{ display:flex; align-items:center; gap:10px; max-width:480px; margin:0 auto; background:var(--bg); border-radius:26px; padding:6px 6px 6px 22px; }
+  .similar-search input{ flex:1; border:none; background:transparent; font-family:'Inter',sans-serif; font-size:14.5px; outline:none; color:var(--ink); }
+  .similar-search button{ background:var(--terracotta); border:none; color:#fff; font-size:13px; font-weight:600; padding:11px 22px; border-radius:22px; cursor:pointer; white-space:nowrap; }
+  .similar-search button:hover{ background:var(--terracotta-deep); }
+  .similar-results{ margin-top:22px; text-align:left; }
+  .similar-msg{ font-family:'Fraunces',serif; font-style:italic; font-size:15px; color:var(--ink-soft); text-align:center; }
+  .sim-row{ display:flex; align-items:center; gap:14px; padding:12px 10px; border-radius:10px; cursor:pointer; }
+  .sim-row:hover{ background:var(--bg); }
+  .sim-match{ font-family:'Fraunces',serif; font-weight:700; font-size:18px; color:var(--terracotta-deep); width:56px; flex-shrink:0; text-align:center; }
+  .sim-info .sname{ font-weight:600; font-size:14.5px; }
+  .sim-info .sbrand{ font-size:11.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; }
+
+  /* TRENDING */
+  .section{ max-width:1280px; margin:0 auto; padding:8px 48px; }
+  .section-heading-row{ max-width:1280px; margin:52px auto 20px; padding:0 48px; display:flex; justify-content:space-between; align-items:baseline; }
+  .section-heading{ font-family:'Fraunces',serif; font-weight:700; font-size:22px; color:var(--green); }
+  .section-heading .sub{ font-size:13px; font-weight:400; color:var(--ink-soft); font-family:'Inter',sans-serif; margin-top:3px; }
+  .view-all{ font-size:13px; font-weight:600; color:var(--terracotta-deep); text-decoration:none; }
+  .trending-row{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:22px; }
+  .badge{ position:absolute; top:12px; left:12px; background:var(--card); color:var(--terracotta-deep); font-size:10px; font-weight:700; padding:4px 10px; border-radius:10px; text-transform:uppercase; letter-spacing:.03em; }
+
+  /* FILTERS */
+  .filters{ max-width:1280px; margin:0 auto; padding:10px 48px 6px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .filter-dd{ position:relative; display:inline-block; }
+  .filter-toggle{ font-size:13.5px; font-weight:600; padding:10px 20px; border:none; border-radius:22px; color:var(--ink); cursor:pointer; background:var(--card); box-shadow:var(--shadow); }
+  .filter-toggle:hover{ box-shadow:var(--shadow-hover); }
+  .fcount{ display:inline-block; background:var(--terracotta); color:#fff; font-size:10.5px; font-weight:700; border-radius:9px; padding:1px 6px; margin:0 2px; }
+  .fcount:empty{ display:none; }
+  .filter-panel{ display:none; position:absolute; top:calc(100% + 8px); left:0; background:var(--card); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow-hover); z-index:20; min-width:210px; }
+  .filter-panel.open{ display:block; }
+  .filter-panel label{ display:flex; align-items:center; gap:9px; padding:8px 4px; font-size:14px; cursor:pointer; white-space:nowrap; }
+  .filter-panel label:hover{ color:var(--terracotta-deep); }
+  .filter-panel input[type="checkbox"]{ width:16px; height:16px; accent-color:var(--terracotta); cursor:pointer; }
+  .clear-link{ margin-top:8px; background:none; border:none; color:var(--terracotta-deep); font-size:12.5px; font-weight:600; cursor:pointer; padding:8px 4px 0; }
+
+  .results-meta{ max-width:1280px; margin:0 auto; padding:18px 48px 4px; font-size:13.5px; color:var(--ink-soft); }
+  .results-meta strong{ color:var(--ink); }
+  .similar-note a{ color:var(--terracotta-deep); font-weight:600; }
+
+  /* GRID */
+  .grid{ max-width:1280px; margin:0 auto; padding:20px 48px 90px; display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:24px; }
+
+  .card{ background:var(--card); border-radius:18px; box-shadow:var(--shadow); overflow:hidden; cursor:pointer; transition:transform .15s ease, box-shadow .15s ease; display:flex; flex-direction:column; position:relative; }
+  .card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-hover); }
+  .card-visual{ height:220px; display:flex; align-items:center; justify-content:center; position:relative; background:#fff; overflow:hidden; }
+  .card-visual.has-photo img{ width:100%; height:100%; object-fit:contain; }
+  .card-visual .status{ position:absolute; top:12px; right:12px; font-size:10px; font-weight:600; letter-spacing:.04em; padding:4px 10px; border-radius:12px; background:var(--bg); color:var(--ink-soft); }
+
+  .card-body{ padding:18px 20px 20px; display:flex; flex-direction:column; gap:9px; flex:1; }
+  .brand{ font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.06em; font-weight:600; }
+  .pname{ font-family:'Fraunces',serif; font-size:19px; font-weight:700; line-height:1.15; color:var(--green); }
+  .pname .sub{ font-size:12px; color:var(--ink-soft); font-family:'Inter',sans-serif; font-weight:400; }
+  .accords{ display:flex; flex-wrap:wrap; gap:6px; }
+  .accord-tag{ font-size:10.5px; font-weight:500; padding:3px 10px; border-radius:10px; background:var(--bg); color:var(--ink-soft); }
+
+  .notes{ font-size:12px; color:var(--ink-soft); border-top:1px solid var(--line); padding-top:9px; }
+  .notes .row{ margin-bottom:3px; }
+  .notes .row b{ color:var(--ink); font-weight:600; }
+
+  .experience{ font-size:13px; color:var(--ink-soft); font-style:italic; font-family:'Fraunces',serif; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+  .season-badges{ display:flex; flex-wrap:wrap; gap:6px; }
+  .sb{ font-size:10px; font-weight:500; padding:3px 9px; background:#F2E4DC; color:var(--terracotta-deep); border-radius:9px; }
+
+  .relations{ display:flex; flex-wrap:wrap; gap:6px; }
+  .rel-tag{ font-size:10.5px; font-weight:600; padding:4px 10px; border-radius:9px; cursor:pointer; border:1px solid var(--terracotta); background:transparent; color:var(--terracotta-deep); }
+  .rel-tag:hover{ background:var(--terracotta); color:#fff; }
+
+  .price-row{ display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); padding-top:12px; margin-top:auto; gap:10px; }
+  .price .val{ font-family:'Fraunces',serif; font-size:19px; font-weight:700; color:var(--green); }
+  .price .src{ font-size:11px; color:var(--ink-soft); }
+  .price .pending{ font-size:11.5px; color:var(--ink-soft); font-style:italic; }
+  .compare-hint{ font-size:10px; color:var(--terracotta-deep); font-weight:600; margin-top:3px; }
+  .buy-btn{ background:var(--terracotta); color:#fff; text-decoration:none; font-size:12.5px; font-weight:700; padding:9px 16px; border-radius:20px; white-space:nowrap; }
+  .buy-btn:hover{ background:var(--terracotta-deep); }
+
+  .empty{ padding:70px 40px; text-align:center; font-family:'Fraunces',serif; font-style:italic; font-size:19px; color:var(--ink-soft); grid-column:1/-1; }
+
+  .pagination{ display:flex; justify-content:center; align-items:center; gap:8px; padding:10px 48px 90px; flex-wrap:wrap; max-width:1280px; margin:0 auto; }
+  .page-btn{ min-width:36px; height:36px; padding:0 10px; border:none; background:var(--card); box-shadow:var(--shadow); color:var(--ink); border-radius:10px; cursor:pointer; font-size:13.5px; font-weight:500; }
+  .page-btn:hover{ box-shadow:var(--shadow-hover); }
+  .page-btn.active{ background:var(--terracotta); color:#fff; font-weight:700; box-shadow:none; }
+  .page-btn:disabled{ opacity:0.35; cursor:default; }
+  .page-dots{ color:var(--ink-soft); padding:0 4px; }
+
+  /* BENEFITS */
+  .benefits-wrap{ padding:10px 48px 60px; }
+  .benefits{ max-width:1280px; margin:0 auto; background:var(--card); border-radius:24px; box-shadow:var(--shadow); display:grid; grid-template-columns:repeat(4,1fr); gap:20px; padding:34px 30px; }
+  .benefit{ text-align:center; padding:8px; }
+  .benefit .bicon{ width:44px; height:44px; border-radius:50%; background:#F2E4DC; color:var(--terracotta-deep); display:flex; align-items:center; justify-content:center; font-size:19px; margin:0 auto 12px; }
+  .benefit .bname{ font-weight:700; font-size:14.5px; margin-bottom:4px; color:var(--green); }
+  .benefit .bsub{ font-size:12.5px; color:var(--ink-soft); }
+
+  /* NEWSLETTER + FOOTER */
+  .footer-wrap{ padding:40px 48px 30px; border-top:1px solid var(--line); }
+  .footer-grid{ max-width:1280px; margin:0 auto; display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:30px; }
+  .footer-brand .wordmark{ margin-bottom:8px; }
+  .footer-brand p{ font-size:13px; color:var(--ink-soft); max-width:260px; }
+  .footer-news .flabel{ font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:4px; }
+  .footer-news p{ font-size:13px; color:var(--ink-soft); margin-bottom:14px; }
+  .newsletter-form{ display:flex; gap:8px; }
+  .newsletter-form input{ padding:12px 16px; border-radius:24px; border:1px solid var(--line); font-size:14px; width:220px; }
+  .newsletter-form button{ background:var(--terracotta); color:#fff; border:none; padding:12px 22px; border-radius:24px; font-weight:700; font-size:13.5px; cursor:pointer; }
+
+  .note-banner{ max-width:1280px; margin:0 auto 10px; padding:14px 20px; background:var(--card); box-shadow:var(--shadow); border-radius:14px; font-size:12.5px; color:var(--ink-soft); }
+  .note-banner-wrap{ padding:0 48px; }
+
+  .copyright{ text-align:center; padding:22px 48px; font-size:12px; color:var(--ink-soft); }
+
+  @media (max-width:900px){
+    .hero{ min-height:520px; }
+    .hero-text{ max-width:90%; padding:0 24px; }
+    .hero-text h1{ font-size:36px; }
+    .startwith, .trending-row, .benefits{ grid-template-columns:repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark-wrap" href="index.html">
+    <span class="wordmark">SURANS</span>
+    <span class="wordmark-sub">Descoperă parfumuri</span>
+  </a>
+  <nav>
+    <a href="index.html" class="active">Descoperă</a>
+    <a href="index.html">Parfumuri</a>
+    <a href="index.html">Note</a>
+    <a href="index.html">Dupe Finder</a>
+    <a href="despre.html">Despre noi</a>
+    <a class="nav-cta" href="#" onclick="document.getElementById('searchInput').scrollIntoView({behavior:'smooth'}); document.getElementById('searchInput').focus(); return false;">Găsește-mi parfumul</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <img class="hero-photo" src="hero-perfume.png" alt="Parfum printre flori, vanilie și citrice">
+  <div class="hero-text">
+    <div class="eyebrow">Descoperă · Compară · Alege</div>
+    <h1>Găsește-ți<br>parfumul</h1>
+    <p>Spune-ne ce-ți place, cum vrei să miroși, sau unde îl vei purta. Îți vom arăta parfumurile potrivite pentru tine.</p>
+    <div class="search hero-search">
+      <input id="searchInput" type="text" placeholder="Caută un parfum pe care-l iubești...">
+      <button onclick="render(); document.getElementById('entries').scrollIntoView({behavior:'smooth'});">Caută</button>
+    </div>
+    <div class="avatars-row">
+      <div class="avatars"><span>C</span><span>A</span><span>M</span><span>R</span></div>
+      <div class="avatars-text">Peste 30.000 de iubitori de parfumuri și-au găsit aroma semnătură.</div>
+    </div>
+  </div>
+</div>
+
+<div class="ticker-bar" id="tickerBar"></div>
+<div class="chip-row-wrap">
+  <div class="chip-row">
+    <div class="chip-item" onclick="toggleDropdown('season'); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+      <span class="cicon">☀</span><span class="cname">Sezon</span>
+    </div>
+    <div class="chip-item" onclick="toggleDropdown('gender'); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+      <span class="cicon">◐</span><span class="cname">Gen</span>
+    </div>
+    <div class="chip-item" onclick="toggleDropdown('occasion'); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+      <span class="cicon">♥</span><span class="cname">Ocazie</span>
+    </div>
+    <div class="chip-item" onclick="toggleDropdown('type'); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+      <span class="cicon">◆</span><span class="cname">Tip</span>
+    </div>
+  </div>
+</div>
+
+<div class="section-heading-row" id="trendingHeading">
+  <div>
+    <div class="section-heading">În tendințe pe Surans</div>
+    <div class="sub">Cele mai descoperite de comunitatea noastră săptămâna asta.</div>
+  </div>
+  <a class="view-all" href="#" onclick="document.getElementById('entries').scrollIntoView({behavior:'smooth'}); return false;">Vezi tot →</a>
+</div>
+<div class="section" id="trendingSection">
+  <div class="trending-row" id="trending"></div>
+</div>
+
+<div class="similar-block">
+  <div class="similar-panel">
+    <div class="stitle">Ai deja un parfum pe care-l porți?</div>
+    <div class="ssub">Spune-ne care — și îți arătăm ce e cel mai aproape ca notă din arhivă.</div>
+    <div class="similar-search">
+      <input id="similarInput" list="perfumeNames" type="text" placeholder="ex: Dior Sauvage, Yara Moi, Ambre Bleu...">
+      <button onclick="findSimilar()">Arată-mi similare →</button>
+    </div>
+    <datalist id="perfumeNames"></datalist>
+    <div class="similar-results" id="similarResults"></div>
+  </div>
+</div>
+
+<div class="filters" id="filterBlock">
+  <div class="filter-dd">
+    <button class="filter-toggle" onclick="toggleDropdown('season')">Sezon <span class="fcount" id="seasonFCount"></span> ▾</button>
+    <div class="filter-panel" id="seasonPanel">
+      <label><input type="checkbox" value="Spring" onchange="onFilterCheck('season',this)"> Primăvară</label>
+      <label><input type="checkbox" value="Summer" onchange="onFilterCheck('season',this)"> Vară</label>
+      <label><input type="checkbox" value="Autumn" onchange="onFilterCheck('season',this)"> Toamnă</label>
+      <label><input type="checkbox" value="Winter" onchange="onFilterCheck('season',this)"> Iarnă</label>
+      <button class="clear-link" onclick="clearFilter('season')">Golește</button>
+    </div>
+  </div>
+
+  <div class="filter-dd">
+    <button class="filter-toggle" onclick="toggleDropdown('occasion')">Ocazie <span class="fcount" id="occasionFCount"></span> ▾</button>
+    <div class="filter-panel" id="occasionPanel">
+      <label><input type="checkbox" value="Day" onchange="onFilterCheck('occasion',this)"> Zi / Birou</label>
+      <label><input type="checkbox" value="Evening" onchange="onFilterCheck('occasion',this)"> Ieșire seara</label>
+      <label><input type="checkbox" value="Romantic" onchange="onFilterCheck('occasion',this)"> Întâlnire romantică</label>
+      <button class="clear-link" onclick="clearFilter('occasion')">Golește</button>
+    </div>
+  </div>
+
+  <div class="filter-dd">
+    <button class="filter-toggle" onclick="toggleDropdown('type')">Tip <span class="fcount" id="typeFCount"></span> ▾</button>
+    <div class="filter-panel" id="typePanel">
+      <label><input type="checkbox" value="Niche" onchange="onFilterCheck('type',this)"> Niche</label>
+      <label><input type="checkbox" value="Middle Eastern" onchange="onFilterCheck('type',this)"> Middle Eastern</label>
+      <button class="clear-link" onclick="clearFilter('type')">Golește</button>
+    </div>
+  </div>
+
+  <div class="filter-dd">
+    <button class="filter-toggle" onclick="toggleDropdown('gender')">Gen <span class="fcount" id="genderFCount"></span> ▾</button>
+    <div class="filter-panel" id="genderPanel">
+      <label><input type="checkbox" value="Women" onchange="onFilterCheck('gender',this)"> Femei</label>
+      <label><input type="checkbox" value="Men" onchange="onFilterCheck('gender',this)"> Bărbați</label>
+      <label><input type="checkbox" value="Unisex" onchange="onFilterCheck('gender',this)"> Unisex</label>
+      <button class="clear-link" onclick="clearFilter('gender')">Golește</button>
+    </div>
+  </div>
+
+  <button class="filter-toggle" id="clearAllBtn" style="display:none;" onclick="clearAllFilters()">✕ Șterge toate filtrele</button>
+</div>
+
+<div class="results-meta"><span><strong id="count">0</strong> specimene · <span id="similarInfo"></span></span></div>
+
+<div class="note-banner-wrap"><div class="note-banner">Sezonul și ocazia sunt atribuite automat pe baza notelor documentate — o convenție standard de parfumerie, nu o testare personală.</div></div>
+
+<div class="grid" id="entries"></div>
+<div class="pagination" id="pagination"></div>
+
+<div class="benefits-wrap">
+  <div class="benefits">
+    <div class="benefit"><div class="bicon">✦</div><div class="bname">Recomandări inteligente</div><div class="bsub">Rezultate personalizate pe gustul tău</div></div>
+    <div class="benefit"><div class="bicon">⚖</div><div class="bname">Compară & Explorează</div><div class="bsub">Comparații directe între parfumuri similare</div></div>
+    <div class="benefit"><div class="bicon">◈</div><div class="bname">Cele mai bune prețuri</div><div class="bsub">Din magazine de încredere</div></div>
+    <div class="benefit"><div class="bicon">✓</div><div class="bname">Date verificate</div><div class="bsub">Fiecare preț are sursă și dată</div></div>
+  </div>
+</div>
+
+<div class="footer-wrap">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="wordmark">SURANS</span>
+      <p>Ghidul tău de descoperire a parfumurilor. Descoperă. Compară. Alege mai bine.</p>
+    </div>
+    <div class="footer-news">
+      <div class="flabel">Rămâi la curent</div>
+      <p>Abonează-te pentru lansări noi, ghiduri și oferte exclusive.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="adresa ta de email">
+        <button>Abonează-te</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="copyright">© 2026 SURANS. Toate drepturile rezervate. · Făcut cu ❤ pentru iubitorii de parfumuri.</div>
+
+<script>
+function bottleSVG(){
+  return `
+  <svg width="52" height="86" viewBox="0 0 52 86">
+    <rect x="18" y="4" width="16" height="9" rx="1" fill="none" stroke="#E1785A" stroke-width="1.3"/>
+    <rect x="9" y="14" width="34" height="68" rx="5" fill="none" stroke="#E1785A" stroke-width="1.3"/>
+    <line x1="9" y1="34" x2="43" y2="34" stroke="#C15A3E" stroke-width="0.9" stroke-dasharray="1.5 2.2"/>
+  </svg>`;
+}
+
+let activeFilters = { season:[], type:[], occasion:[], gender:[] };
+let highlightId = null;
+
+function toggleDropdown(key){
+  const panel = document.getElementById(key+'Panel');
+  const wasOpen = panel.classList.contains('open');
+  document.querySelectorAll('.filter-panel').forEach(p=>p.classList.remove('open'));
+  if(!wasOpen) panel.classList.add('open');
+}
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('.filter-dd')){
+    document.querySelectorAll('.filter-panel').forEach(p=>p.classList.remove('open'));
+  }
+});
+
+function onFilterCheck(key, input){
+  const set = new Set(activeFilters[key]);
+  if(input.checked) set.add(input.value); else set.delete(input.value);
+  activeFilters[key] = [...set];
+  updateFilterUI();
+  highlightId = null;
+  currentPage = 1;
+  render();
+}
+
+function clearFilter(key){
+  activeFilters[key] = [];
+  document.querySelectorAll(`#${key}Panel input`).forEach(i=>i.checked=false);
+  updateFilterUI();
+  currentPage = 1;
+  render();
+}
+
+function clearAllFilters(){
+  ['season','occasion','type','gender'].forEach(clearFilter);
+}
+
+function updateFilterUI(){
+  ['season','occasion','type','gender'].forEach(key=>{
+    const n = activeFilters[key].length;
+    document.getElementById(key+'FCount').textContent = n>0 ? n : '';
+  });
+  const anyActive = activeFilters.season.length || activeFilters.occasion.length || activeFilters.type.length || activeFilters.gender.length;
+  document.getElementById('clearAllBtn').style.display = anyActive ? 'inline-block' : 'none';
+}
+
+document.getElementById('searchInput').addEventListener('input', ()=>{ highlightId=null; currentPage=1; render(); });
+
+function scrollToFilters(){ document.getElementById('filterBlock').scrollIntoView({behavior:'smooth', block:'center'}); }
+function quickStart(action){
+  if(action==='focus'){
+    document.getElementById('searchInput').scrollIntoView({behavior:'smooth', block:'center'});
+    document.getElementById('searchInput').focus();
+    return;
+  }
+  if(action.startsWith('season:')){
+    const v = action.split(':')[1];
+    activeFilters.season = [v];
+    document.querySelectorAll('#seasonPanel input').forEach(i=>i.checked = i.value===v);
+  } else if(action.startsWith('occasion:')){
+    const v = action.split(':')[1];
+    activeFilters.occasion = [v];
+    document.querySelectorAll('#occasionPanel input').forEach(i=>i.checked = i.value===v);
+  } else if(action.startsWith('type:')){
+    const v = action.split(':')[1];
+    activeFilters.type = [v];
+    document.querySelectorAll('#typePanel input').forEach(i=>i.checked = i.value===v);
+  } else {
+    document.getElementById('searchInput').value = action;
+  }
+  updateFilterUI();
+  currentPage = 1;
+  render();
+  document.getElementById('filterBlock').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function findSimilar(){
+  const q = document.getElementById('similarInput').value.trim().toLowerCase();
+  const resultsBox = document.getElementById('similarResults');
+  if(!q){ resultsBox.innerHTML = ''; return; }
+
+  const ref = DATA.find(p => (p.brand+' '+p.name).toLowerCase().includes(q) || p.name.toLowerCase().includes(q));
+
+  if(!ref){
+    // n-am găsit parfumul ca atare — poate avem un dupe pentru el
+    const dupes = DATA.filter(p => p.dupeOf && p.dupeOf.toLowerCase().includes(q));
+    if(dupes.length > 0){
+      resultsBox.innerHTML = `<div class="similar-msg" style="margin-bottom:6px;">Nu avem "<b style="color:var(--ink); font-style:normal;">${document.getElementById('similarInput').value}</b>" ca atare, dar avem dupe-uri pentru el:</div>` +
+        dupes.map(p=>`
+          <div class="sim-row" onclick="jumpToFromSimilar('${p.id}')">
+            <div class="sim-match">★</div>
+            <div class="sim-info">
+              <div class="sname">${p.name} <span style="font-weight:400; color:var(--ink-soft);">${p.conc}</span></div>
+              <div class="sbrand">${p.brand} · DUPE</div>
+            </div>
+          </div>`).join('');
+      return;
+    }
+    resultsBox.innerHTML = `<div class="similar-msg">Nu avem încă acest parfum în arhivă — încearcă unul din listă, sau caută direct după notă mai jos.</div>`;
+    return;
+  }
+
+  const ranked = DATA.filter(p=>p.id!==ref.id)
+    .map(p=>({ p, score: jaccard(ref, p), rel: ref.relations.find(r=>r.target===p.id) }))
+    .filter(x=>x.score>0 || x.rel)
+    .sort((a,b)=> (b.rel?1:0)-(a.rel?1:0) || b.score-a.score)
+    .slice(0,4);
+
+  if(ranked.length===0){
+    resultsBox.innerHTML = `<div class="similar-msg">Am găsit "${ref.brand} ${ref.name}", dar nimic suficient de apropiat ca notă încă în arhivă.</div>`;
+    return;
+  }
+
+  resultsBox.innerHTML = `<div class="similar-msg" style="margin-bottom:6px;">Cel mai aproape de <b style="color:var(--ink); font-style:normal;">${ref.brand} ${ref.name}</b>:</div>` +
+    ranked.map(({p,score,rel})=>`
+      <div class="sim-row" onclick="jumpToFromSimilar('${p.id}')">
+        <div class="sim-match">${rel ? '★' : Math.round(score*100)+'%'}</div>
+        <div class="sim-info">
+          <div class="sname">${p.name} <span style="font-weight:400; color:var(--ink-soft);">${p.conc}</span></div>
+          <div class="sbrand">${p.brand}${rel ? ' · '+rel.label.split('→')[0].trim() : ''}</div>
+        </div>
+      </div>`).join('');
+}
+
+function jumpToFromSimilar(id){
+  window.location.href = `produs.html?id=${id}`;
+}
+
+function cardHTML(p, i){
+  const seasonBadges = p.seasons.map(s=>`<span class="sb">${SEASON_LABEL[s]}</span>`).join('');
+  const relTags = p.relations.map(r=>`<button class="rel-tag" onclick="event.stopPropagation(); window.location.href='produs.html?id=${r.target}';">${r.label}</button>`).join('');
+  const dupeTag = p.dupeOf ? `<span class="accord-tag" style="border-color:var(--coral);">Dupe: ${p.dupeOf}</span>` : '';
+  const compareBadge = (p.offers && p.offers.length>0) ? `<div class="compare-hint">⚖ ${p.offers.length+1} magazine</div>` : '';
+  const priceBlock = p.price.val
+    ? `<div class="val">${p.price.val}</div><div class="src">${p.price.src}</div>${compareBadge}`
+    : `<div class="pending">${p.price.src}</div>`;
+  const buyButton = p.price.buyLink
+    ? `<a class="buy-btn" href="${p.price.buyLink}" target="_blank" rel="nofollow sponsored noopener" onclick="event.stopPropagation();">Cumpără →</a>`
+    : '';
+  const visual = p.image
+    ? `<img src="${p.image}" alt="${p.brand} ${p.name}" loading="lazy">`
+    : bottleSVG();
+  const statusLabel = p.status==='verified' ? 'Verificat' : (p.status==='feed' ? 'Din feed' : 'Parțial');
+  const highlightStyle = highlightId===p.id ? `style="outline:2px solid var(--coral-deep);"` : '';
+  return `
+  <div class="card" id="${p.id}" ${highlightStyle} onclick="window.location.href='produs.html?id=${p.id}'">
+    <div class="card-visual ${p.image?'has-photo':''}">
+      <span class="status">${statusLabel}</span>
+      ${visual}
+    </div>
+    <div class="card-body">
+      <div class="brand">${p.brand}</div>
+      <div class="pname">${p.name} <span class="sub">${p.conc}</span></div>
+      <div class="accords">${p.accords.map(a=>`<span class="accord-tag">${a}</span>`).join('')}${dupeTag}</div>
+      <div class="notes">
+        ${p.top.length?`<div class="row"><b>Vârf</b> — ${p.top.join(', ')}</div>`:''}
+        ${p.heart.length?`<div class="row"><b>Inimă</b> — ${p.heart.join(', ')}</div>`:''}
+        ${p.base.length?`<div class="row"><b>Bază</b> — ${p.base.join(', ')}</div>`:''}
+      </div>
+      <div class="experience">${p.experience}</div>
+      <div class="season-badges">${seasonBadges}</div>
+      ${relTags ? `<div class="relations">${relTags}</div>` : ''}
+      <div class="price-row">
+        <div class="price">${priceBlock}</div>
+        ${buyButton}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderTrending(){
+  const favs = DATA.filter(p=>p.love).slice(0,3);
+  if(favs.length===0){
+    document.getElementById('trendingHeading').style.display = 'none';
+    document.getElementById('trendingSection').style.display = 'none';
+    return;
+  }
+  document.getElementById('trending').innerHTML = favs.map((p)=>cardHTML(p, DATA.indexOf(p))).join('');
+}
+
+function matchesQuery(p, q){
+  if(!q) return true;
+  const hay = [p.brand,p.name,...p.accords,...p.top,...p.heart,...p.base].join(' ').toLowerCase();
+  return hay.includes(q.toLowerCase());
+}
+
+const PAGE_SIZE = 30;
+let currentPage = 1;
+
+function goToPage(n){
+  currentPage = n;
+  render();
+  document.getElementById('entries').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function renderPagination(totalItems){
+  const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+  const box = document.getElementById('pagination');
+  if(totalPages <= 1){ box.innerHTML = ''; return; }
+
+  let btns = [];
+  btns.push(`<button class="page-btn" ${currentPage===1?'disabled':''} onclick="goToPage(${currentPage-1})">‹ Anterior</button>`);
+
+  const addPage = n => btns.push(`<button class="page-btn ${n===currentPage?'active':''}" onclick="goToPage(${n})">${n}</button>`);
+  const addDots = () => btns.push(`<span class="page-dots">…</span>`);
+
+  addPage(1);
+  let start = Math.max(2, currentPage-2);
+  let end = Math.min(totalPages-1, currentPage+2);
+  if(start > 2) addDots();
+  for(let n=start; n<=end; n++) addPage(n);
+  if(end < totalPages-1) addDots();
+  if(totalPages > 1) addPage(totalPages);
+
+  btns.push(`<button class="page-btn" ${currentPage===totalPages?'disabled':''} onclick="goToPage(${currentPage+1})">Următoare ›</button>`);
+  box.innerHTML = btns.join('');
+}
+
+function render(){
+  const q = document.getElementById('searchInput').value.trim();
+  let list = DATA.filter(p=>{
+    if(!matchesQuery(p,q)) return false;
+    if(activeFilters.season.length && !activeFilters.season.some(s=>p.seasons.includes(s))) return false;
+    if(activeFilters.occasion.length && !activeFilters.occasion.some(o=>(p.occasions||[]).includes(o))) return false;
+    if(activeFilters.type.length && !activeFilters.type.includes(p.type)) return false;
+    if(activeFilters.gender.length && !activeFilters.gender.includes(p.gender)) return false;
+    return true;
+  });
+
+  document.getElementById('count').textContent = list.length;
+  document.getElementById('similarInfo').innerHTML = highlightId
+    ? `<span class="similar-note">evidențiat: ${DATA.find(d=>d.id===highlightId)?.name || ''} · <a href="#" onclick="highlightId=null; render(); return false;">golește</a></span>`
+    : '';
+
+  const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+  if(currentPage > totalPages) currentPage = totalPages;
+  if(currentPage < 1) currentPage = 1;
+  const pageList = list.slice((currentPage-1)*PAGE_SIZE, currentPage*PAGE_SIZE);
+
+  const wrap = document.getElementById('entries');
+  if(list.length===0){
+    wrap.innerHTML = '<div class="empty">Niciun specimen nu se potrivește. Încearcă alt filtru.</div>';
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+  wrap.innerHTML = pageList.map((p)=>cardHTML(p, DATA.indexOf(p))).join('');
+  renderPagination(list.length);
+}
+
+function renderTicker(){
+  const total = DATA.length;
+  const brands = new Set(DATA.map(d=>d.brand)).size;
+  const stores = new Set(DATA.map(d=>d.price.src).filter(Boolean)).size;
+  const withOffers = DATA.filter(d=>d.offers && d.offers.length>0).length;
+  document.getElementById('tickerBar').innerHTML =
+    `<span><strong>${total}</strong> parfumuri documentate</span>` +
+    `<span class="dot">·</span><span><strong>${brands}</strong> branduri</span>` +
+    `<span class="dot">·</span><span><strong>${stores}</strong> magazine comparate</span>` +
+    `<span class="dot">·</span><span><strong>${withOffers}</strong> cu comparator de preț activ</span>`;
+}
+renderTicker();
+renderTrending();
+render();
+</script>
+</body>
+</html>
