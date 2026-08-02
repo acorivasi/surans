@@ -35,6 +35,7 @@
   nav{ display:flex; gap:26px; font-size:11.5px; font-weight:600; align-items:center; text-transform:uppercase; letter-spacing:.08em; }
   nav a{ color:var(--ink); text-decoration:none; }
   nav a.active{ color:var(--ink); border-bottom:1.5px solid var(--ink); padding-bottom:4px; }
+  .nav-toggle{ display:none; background:none; border:none; font-size:22px; line-height:1; color:var(--ink); cursor:pointer; padding:6px 4px; }
   nav a:hover{ color:var(--terracotta-deep); }
   .nav-cta{ background:var(--terracotta); color:#fff !important; padding:10px 20px; border-radius:2px; font-weight:700; font-size:11px; letter-spacing:.06em; }
   .nav-cta:hover{ background:var(--terracotta-deep); }
@@ -124,7 +125,7 @@
   .search-block{ padding:52px 48px 8px; text-align:center; max-width:1280px; margin:0 auto; }
   .search-block .label{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:16px; }
   .search{ display:flex; align-items:center; gap:10px; max-width:560px; margin:0 auto; background:var(--card); box-shadow:var(--shadow); border-radius:30px; padding:8px 8px 8px 26px; }
-  .search input{ flex:1; border:none; background:transparent; font-family:'Inter',sans-serif; font-size:15px; outline:none; color:var(--ink); }
+  .search input{ flex:1; min-width:0; border:none; background:transparent; font-family:'Inter',sans-serif; font-size:15px; outline:none; color:var(--ink); }
   .search input::placeholder{ color:var(--ink-soft); }
   .search button{ background:var(--terracotta); border:none; color:#fff; font-size:14px; font-weight:700; padding:13px 26px; border-radius:24px; cursor:pointer; }
   .search button:hover{ background:var(--terracotta-deep); }
@@ -135,7 +136,7 @@
   .stitle{ font-family:'Fraunces',serif; font-weight:700; font-size:22px; margin-bottom:6px; color:var(--green); position:relative; }
   .ssub{ font-size:13.5px; color:var(--ink-soft); margin-bottom:22px; position:relative; }
   .similar-search{ display:flex; align-items:center; gap:10px; max-width:480px; margin:0 auto; background:#fff; border-radius:26px; padding:6px 6px 6px 22px; position:relative; box-shadow:0 6px 16px rgba(28,24,19,0.06); }
-  .similar-search input{ flex:1; border:none; background:transparent; font-family:'Inter',sans-serif; font-size:14.5px; outline:none; color:var(--ink); }
+  .similar-search input{ flex:1; min-width:0; border:none; background:transparent; font-family:'Inter',sans-serif; font-size:14.5px; outline:none; color:var(--ink); }
   .similar-search button{ background:var(--terracotta); border:none; color:#fff; font-size:13px; font-weight:600; padding:11px 22px; border-radius:22px; cursor:pointer; white-space:nowrap; }
   .similar-search button:hover{ background:var(--terracotta-deep); }
   .similar-results{ position:relative; }
@@ -276,11 +277,30 @@
   .copyright{ text-align:center; padding:22px 48px; font-size:12px; color:var(--ink-soft); }
 
   @media (max-width:900px){
+    header{ padding:16px 20px; position:relative; }
+    .nav-toggle{ display:block; }
+    nav{ display:none; position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; background:var(--bg); border-bottom:1px solid var(--line); padding:6px 20px 18px; box-shadow:var(--shadow-hover); }
+    nav.open{ display:flex; }
+    nav a{ padding:13px 2px; border-bottom:1px solid var(--line); }
+    nav a.active{ border-bottom:1px solid var(--line); }
+    nav a:last-child{ border-bottom:none; }
+    .nav-cta{ margin-top:10px; text-align:center; }
     .hero{ min-height:520px; }
     .hero-text{ max-width:90%; padding:0 24px; }
     .hero-text h1{ font-size:32px; white-space:normal; }
     .hero-search{ max-width:100%; }
     .startwith, .trending-row, .benefits{ grid-template-columns:repeat(2,1fr); }
+    .sw-card{ aspect-ratio:auto; min-height:220px; padding-bottom:58px; }
+    .similar-panel, .comparator-panel{ padding:26px 22px; }
+    .ticker-bar, .chip-row-wrap, .search-block, .similar-block, .comparator-block,
+    .section, .section-heading-row, .filters, .results-meta, .grid, .pagination,
+    .benefits-wrap, .footer-wrap, .note-banner-wrap, .copyright{ padding-left:20px; padding-right:20px; }
+    .newsletter-form{ flex-direction:column; align-items:stretch; }
+    .newsletter-form input{ width:100%; }
+    .panel-deco{ width:120px; height:120px; top:-16px; right:-16px; }
+    .similar-search{ flex-direction:column; align-items:stretch; border-radius:18px; padding:14px; gap:10px; }
+    .similar-search input{ padding:6px 4px; }
+    .similar-search button{ width:100%; border-radius:14px; padding:12px; }
   }
 </style>
 </head>
@@ -291,7 +311,8 @@
     <span class="wordmark">SURANS</span>
     <span class="wordmark-sub">Descoperă parfumuri</span>
   </a>
-  <nav>
+  <button class="nav-toggle" id="navToggle" onclick="toggleMobileNav()" aria-label="Deschide meniul">☰</button>
+  <nav id="mainNav">
     <a href="index.html" class="active">Descoperă</a>
     <a href="#" onclick="document.getElementById('entries').scrollIntoView({behavior:'smooth'}); return false;">Parfumuri</a>
     <a href="#" onclick="toggleDropdown('note', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'}); return false;">Note</a>
@@ -535,6 +556,13 @@ function toggleDropdown(key, evt){
   document.querySelectorAll('.filter-panel').forEach(p=>p.classList.remove('open'));
   if(!wasOpen) panel.classList.add('open');
 }
+
+function toggleMobileNav(){
+  document.getElementById('mainNav').classList.toggle('open');
+}
+document.getElementById('mainNav').addEventListener('click', (e)=>{
+  if(e.target.tagName==='A') document.getElementById('mainNav').classList.remove('open');
+});
 document.addEventListener('click', (e)=>{
   if(!e.target.closest('.filter-dd')){
     document.querySelectorAll('.filter-panel').forEach(p=>p.classList.remove('open'));
