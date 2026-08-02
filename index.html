@@ -116,6 +116,16 @@
   .sw-card.c-dupe:hover{ background:#E1E2C6; border-color:var(--terracotta); }
   .sw-card.c-dupe:hover .sw-arrow{ background:var(--terracotta); color:#fff; }
 
+  .sw-panel{ display:none; position:relative; max-width:680px; margin:18px auto 0; background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:22px 26px; }
+  .sw-panel.open{ display:block; }
+  .sw-panel-title{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:14px; }
+  .sw-panel-close{ position:absolute; top:16px; right:18px; background:none; border:none; font-size:16px; color:var(--ink-soft); cursor:pointer; }
+  .sw-panel-options{ display:flex; flex-wrap:wrap; gap:10px; }
+  .sw-chip{ display:flex; align-items:center; gap:8px; padding:10px 16px; border-radius:20px; background:var(--bg); font-size:13.5px; font-weight:600; cursor:pointer; border:1.5px solid transparent; }
+  .sw-chip input{ width:15px; height:15px; accent-color:var(--terracotta); cursor:pointer; }
+  .sw-chip:has(input:checked){ border-color:var(--terracotta); background:#F2E4DC; }
+  .sw-panel .note-search{ max-width:320px; margin-bottom:14px; }
+
   /* SEARCH */
   .search-block{ padding:52px 48px 8px; text-align:center; max-width:1280px; margin:0 auto; }
   .search-block .label{ font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:16px; }
@@ -337,19 +347,19 @@
   <div class="startwith-inner">
     <div class="startwith-title">Sau începe căutarea de aici</div>
     <div class="startwith">
-      <div class="sw-card c-season" onclick="toggleDropdown('season', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+      <div class="sw-card c-season" onclick="openStartwithPanel('season', event);">
         <div class="swicon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5.2"/><line x1="12" y1="18.8" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="5.2" y2="12"/><line x1="18.8" y1="12" x2="21.5" y2="12"/><line x1="5.3" y1="5.3" x2="7.2" y2="7.2"/><line x1="16.8" y1="16.8" x2="18.7" y2="18.7"/><line x1="5.3" y1="18.7" x2="7.2" y2="16.8"/><line x1="16.8" y1="7.2" x2="18.7" y2="5.3"/></svg></div>
         <div class="swname">Sezon</div>
         <div class="swsub">Parfumuri potrivite anotimpului.</div>
         <div class="sw-arrow">→</div>
       </div>
-      <div class="sw-card c-note" onclick="toggleDropdown('note', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+      <div class="sw-card c-note" onclick="openStartwithPanel('note', event);">
         <div class="swicon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.2 4 5.5 7.4 5.5 10.3a5.5 5.5 0 1 1-11 0C6.5 10.4 8.8 7 12 3Z"/><path d="M9.3 15.2c0 1.4 1.1 2.4 2.5 2.4" stroke-width="1.1" opacity="0.6"/></svg></div>
         <div class="swname">Notă</div>
         <div class="swsub">Caută după notele olfactive preferate.</div>
         <div class="sw-arrow">→</div>
       </div>
-      <div class="sw-card c-occasion" onclick="toggleDropdown('occasion', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+      <div class="sw-card c-occasion" onclick="openStartwithPanel('occasion', event);">
         <div class="swicon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.2S3.8 15.2 3.8 9.4A4.4 4.4 0 0 1 12 6.8a4.4 4.4 0 0 1 8.2 2.6c0 5.8-8.2 10.8-8.2 10.8Z"/></svg></div>
         <div class="swname">Ocazie</div>
         <div class="swsub">Zi, seară sau o întâlnire specială.</div>
@@ -362,6 +372,7 @@
         <div class="sw-arrow">→</div>
       </div>
     </div>
+    <div class="sw-panel" id="swPanel"></div>
   </div>
 </div>
 
@@ -537,7 +548,10 @@ function activateDupeQuickStart(){
   highlightId = null;
   currentPage = 1;
   render();
-  document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});
+  const input = document.getElementById('searchInput');
+  input.placeholder = 'Scrie numele parfumului original (ex: Dior Sauvage)...';
+  input.scrollIntoView({behavior:'smooth', block:'center'});
+  input.focus();
 }
 
 function toggleDropdown(key, evt){
@@ -564,10 +578,57 @@ function onFilterCheck(key, input){
   const set = new Set(activeFilters[key]);
   if(input.checked) set.add(input.value); else set.delete(input.value);
   activeFilters[key] = [...set];
+  document.querySelectorAll(`input[type="checkbox"][value="${CSS.escape(input.value)}"]`).forEach(cb=>{
+    if(cb!==input && (cb.closest('#swPanel') || cb.closest(`#${key}Panel`))) cb.checked = input.checked;
+  });
   updateFilterUI();
   highlightId = null;
   currentPage = 1;
   render();
+}
+
+function closeSwPanel(){
+  const panel = document.getElementById('swPanel');
+  panel.classList.remove('open');
+  panel.dataset.kind = '';
+}
+
+function openStartwithPanel(kind, evt){
+  if(evt) evt.stopPropagation();
+  const panel = document.getElementById('swPanel');
+  if(panel.classList.contains('open') && panel.dataset.kind===kind){
+    closeSwPanel();
+    return;
+  }
+  panel.dataset.kind = kind;
+  panel.classList.add('open');
+
+  if(kind==='season' || kind==='occasion'){
+    const cfg = kind==='season'
+      ? { title:'Alege sezonul', key:'season', options:[['Spring','Primăvară'],['Summer','Vară'],['Autumn','Toamnă'],['Winter','Iarnă']] }
+      : { title:'Alege ocazia', key:'occasion', options:[['Day','Zi / Birou'],['Evening','Ieșire seara'],['Romantic','Întâlnire romantică']] };
+    panel.innerHTML = `<button class="sw-panel-close" onclick="closeSwPanel()">✕</button><div class="sw-panel-title">${cfg.title}</div><div class="sw-panel-options">` +
+      cfg.options.map(([val,label])=>`
+        <label class="sw-chip"><input type="checkbox" value="${val}" ${activeFilters[cfg.key].includes(val)?'checked':''} onchange="onFilterCheck('${cfg.key}', this); document.getElementById('entries').scrollIntoView({behavior:'smooth'});"> ${label}</label>
+      `).join('') + `</div>`;
+  } else if(kind==='note'){
+    panel.innerHTML = `<button class="sw-panel-close" onclick="closeSwPanel()">✕</button><div class="sw-panel-title">Caută o notă</div>
+      <input type="text" class="note-search" id="swNoteInput" placeholder="ex: vanilie, oud, iasomie..." oninput="renderSwNoteChips(this.value)">
+      <div class="sw-panel-options" id="swNoteChips"></div>`;
+    renderSwNoteChips('');
+  }
+
+  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function renderSwNoteChips(q){
+  const query = q.trim().toLowerCase();
+  const box = document.getElementById('swNoteChips');
+  if(!box) return;
+  const list = (query ? NOTE_LIST.filter(n=>n.toLowerCase().includes(query)) : NOTE_LIST).slice(0,10);
+  box.innerHTML = list.map(n=>`
+    <label class="sw-chip"><input type="checkbox" value="${n}" ${activeFilters.note.includes(n)?'checked':''} onchange="onFilterCheck('note', this); document.getElementById('entries').scrollIntoView({behavior:'smooth'});"> ${n}</label>
+  `).join('') || `<div style="color:var(--ink-soft); font-size:13px; font-style:italic;">Nicio notă găsită.</div>`;
 }
 
 function clearFilter(key){
