@@ -635,11 +635,11 @@ function findSimilar(){
   const resultsBox = document.getElementById('similarResults');
   if(!q){ resultsBox.innerHTML = ''; return; }
 
-  const ref = DATA.find(p => (p.brand+' '+p.name).toLowerCase().includes(q) || p.name.toLowerCase().includes(q));
+  const ref = DATA.find(p => tokenMatch(p.brand+' '+p.name, q));
 
   if(!ref){
     // n-am găsit parfumul ca atare — poate avem un dupe pentru el
-    const dupes = DATA.filter(p => p.dupeOf && p.dupeOf.toLowerCase().includes(q));
+    const dupes = DATA.filter(p => p.dupeOf && tokenMatch(p.dupeOf, q));
     if(dupes.length > 0){
       resultsBox.innerHTML = `<div class="similar-msg" style="margin-bottom:6px;">Nu avem "<b style="color:var(--ink); font-style:normal;">${document.getElementById('similarInput').value}</b>" ca atare, dar avem dupe-uri pentru el:</div>` +
         dupes.map(p=>`
@@ -719,10 +719,10 @@ function compareSearch(){
   const box = document.getElementById('comparatorResults');
   if(!q){ box.innerHTML = ''; return; }
 
-  let matches = DATA.filter(p => (p.brand+' '+p.name).toLowerCase().includes(q));
+  let matches = DATA.filter(p => tokenMatch(p.brand+' '+p.name, q));
   let note = '';
   if(matches.length===0){
-    matches = DATA.filter(p => p.dupeOf && p.dupeOf.toLowerCase().includes(q));
+    matches = DATA.filter(p => p.dupeOf && tokenMatch(p.dupeOf, q));
     if(matches.length>0){
       note = `<div class="cmp-msg" style="margin-bottom:2px;">Nu avem "<b style="color:var(--ink); font-style:normal;">${raw}</b>" ca atare, dar avem dupe-uri pentru el — compară prețurile:</div>`;
     }
@@ -792,6 +792,46 @@ function matchesQuery(p, q){
   return hay.includes(q.toLowerCase());
 }
 
+function tokenMatch(haystack, query){
+  if(!haystack) return false;
+  const hay = haystack.toLowerCase();
+  const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
+  return tokens.length>0 && tokens.every(t=>hay.includes(t));
+}
+
+function passesFilters(p){
+  if(activeFilters.season.length && !activeFilters.season.some(s=>p.seasons.includes(s))) return false;
+  if(activeFilters.occasion.length && !activeFilters.occasion.some(o=>(p.occasions||[]).includes(o))) return false;
+  if(activeFilters.type.length && !activeFilters.type.includes(p.type)) return false;
+  if(activeFilters.gender.length && !activeFilters.gender.includes(p.gender)) return false;
+  if(activeFilters.note.length){
+    const pnotes = [...p.top,...p.heart,...p.base].map(x=>x.toLowerCase());
+    if(!activeFilters.note.every(n=>pnotes.includes(n.toLowerCase()))) return false;
+  }
+  if(dupeOnly && !p.dupeOf) return false;
+  return true;
+}
+
+function findClosestByNote(q){
+  const ref = DATA.find(p => tokenMatch(p.brand+' '+p.name, q));
+  if(ref){
+    const ranked = DATA.filter(p=>p.id!==ref.id && passesFilters(p))
+      .map(p=>({ p, score: jaccard(ref,p) }))
+      .filter(x=>x.score>0)
+      .sort((a,b)=>b.score-a.score)
+      .slice(0,12);
+    if(ranked.length>0){
+      return { list: ranked.map(x=>x.p), note: `Nu am găsit exact "${q}" în arhivă — iată cele mai apropiate ca notă:` };
+    }
+    return null;
+  }
+  const dupes = DATA.filter(p=>p.dupeOf && tokenMatch(p.dupeOf, q) && passesFilters(p));
+  if(dupes.length>0){
+    return { list: dupes, note: `Nu avem "${q}" ca atare, dar avem dupe-uri pentru el:` };
+  }
+  return null;
+}
+
 const PAGE_SIZE = 30;
 let currentPage = 1;
 
@@ -826,24 +866,20 @@ function renderPagination(totalItems){
 
 function render(){
   const q = document.getElementById('searchInput').value.trim();
-  let list = DATA.filter(p=>{
-    if(!matchesQuery(p,q)) return false;
-    if(activeFilters.season.length && !activeFilters.season.some(s=>p.seasons.includes(s))) return false;
-    if(activeFilters.occasion.length && !activeFilters.occasion.some(o=>(p.occasions||[]).includes(o))) return false;
-    if(activeFilters.type.length && !activeFilters.type.includes(p.type)) return false;
-    if(activeFilters.gender.length && !activeFilters.gender.includes(p.gender)) return false;
-    if(activeFilters.note.length){
-      const pnotes = [...p.top,...p.heart,...p.base].map(x=>x.toLowerCase());
-      if(!activeFilters.note.every(n=>pnotes.includes(n.toLowerCase()))) return false;
-    }
-    if(dupeOnly && !p.dupeOf) return false;
-    return true;
-  });
+  let list = DATA.filter(p=> matchesQuery(p,q) && passesFilters(p) );
+
+  let fallback = null;
+  if(q && list.length===0){
+    fallback = findClosestByNote(q);
+    if(fallback) list = fallback.list;
+  }
 
   document.getElementById('count').textContent = list.length;
-  document.getElementById('similarInfo').innerHTML = highlightId
-    ? `<span class="similar-note">evidențiat: ${DATA.find(d=>d.id===highlightId)?.name || ''} · <a href="#" onclick="highlightId=null; render(); return false;">golește</a></span>`
-    : '';
+  document.getElementById('similarInfo').innerHTML = fallback
+    ? `<span class="similar-note">${fallback.note}</span>`
+    : (highlightId
+      ? `<span class="similar-note">evidențiat: ${DATA.find(d=>d.id===highlightId)?.name || ''} · <a href="#" onclick="highlightId=null; render(); return false;">golește</a></span>`
+      : '');
 
   const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
   if(currentPage > totalPages) currentPage = totalPages;
