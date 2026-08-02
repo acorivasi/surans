@@ -92,12 +92,33 @@
   .startwith-inner{ max-width:1280px; margin:0 auto; }
   .startwith-title{ text-align:center; color:var(--ink-soft); font-size:12px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; margin-bottom:26px; }
   .startwith{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
-  .sw-card{ background:var(--card); border:1px solid var(--line); border-radius:18px; padding:26px 22px; cursor:pointer; color:var(--ink); transition:border-color .15s ease, transform .15s ease; aspect-ratio:1/1; display:flex; flex-direction:column; position:relative; }
-  .sw-card:hover{ border-color:var(--terracotta); transform:translateY(-2px); }
-  .sw-card .swicon-circle{ width:38px; height:38px; border-radius:50%; background:var(--bg); color:var(--terracotta); display:flex; align-items:center; justify-content:center; font-size:17px; margin-bottom:18px; }
-  .sw-card .swname{ font-family:'Fraunces',serif; font-weight:700; font-size:19px; margin-bottom:6px; letter-spacing:.02em; text-transform:uppercase; }
-  .sw-card .swsub{ font-size:12.5px; opacity:0.9; line-height:1.4; }
-  .sw-arrow{ position:absolute; bottom:20px; right:20px; width:34px; height:34px; border-radius:50%; border:1.5px solid var(--line); color:var(--terracotta); display:flex; align-items:center; justify-content:center; font-size:15px; }
+  .sw-card{ border:1.5px solid transparent; border-radius:18px; padding:26px 24px; cursor:pointer; color:var(--ink); transition:border-color .15s ease, transform .15s ease, box-shadow .15s ease, background-color .15s ease; aspect-ratio:1/1; display:flex; flex-direction:column; position:relative; }
+  .sw-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-hover); }
+  .sw-card .swicon-circle{ width:50px; height:50px; border-radius:50%; background:rgba(255,255,255,0.55); display:flex; align-items:center; justify-content:center; margin-bottom:20px; }
+  .sw-card .swicon-circle svg{ width:25px; height:25px; }
+  .sw-card .swname{ font-family:'Fraunces',serif; font-weight:700; font-size:25px; margin-bottom:8px; letter-spacing:.02em; text-transform:uppercase; }
+  .sw-card .swsub{ font-size:13px; opacity:0.85; line-height:1.45; }
+  .sw-arrow{ position:absolute; bottom:22px; right:22px; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.6); display:flex; align-items:center; justify-content:center; font-size:15px; transition:background-color .15s ease, color .15s ease; }
+
+  .sw-card.c-season{ background:#FBF0DF; }
+  .sw-card.c-season .swname, .sw-card.c-season .swicon-circle, .sw-card.c-season .sw-arrow{ color:#96631C; }
+  .sw-card.c-season:hover{ background:#F5E2BC; border-color:#C98F3B; }
+  .sw-card.c-season:hover .sw-arrow{ background:#96631C; color:#fff; }
+
+  .sw-card.c-note{ background:#E6EFEE; }
+  .sw-card.c-note .swname, .sw-card.c-note .swicon-circle, .sw-card.c-note .sw-arrow{ color:#3F6D6A; }
+  .sw-card.c-note:hover{ background:#D7E7E6; border-color:#5E9490; }
+  .sw-card.c-note:hover .sw-arrow{ background:#3F6D6A; color:#fff; }
+
+  .sw-card.c-occasion{ background:#F2E4DC; }
+  .sw-card.c-occasion .swname, .sw-card.c-occasion .swicon-circle, .sw-card.c-occasion .sw-arrow{ color:var(--terracotta-deep); }
+  .sw-card.c-occasion:hover{ background:#EAD5C7; border-color:#B08669; }
+  .sw-card.c-occasion:hover .sw-arrow{ background:var(--terracotta-deep); color:#fff; }
+
+  .sw-card.c-dupe{ background:#EDEEDF; }
+  .sw-card.c-dupe .swname, .sw-card.c-dupe .swicon-circle, .sw-card.c-dupe .sw-arrow{ color:var(--terracotta); }
+  .sw-card.c-dupe:hover{ background:#E1E2C6; border-color:var(--terracotta); }
+  .sw-card.c-dupe:hover .sw-arrow{ background:var(--terracotta); color:#fff; }
 
   /* SEARCH */
   .search-block{ padding:52px 48px 8px; text-align:center; max-width:1280px; margin:0 auto; }
@@ -300,26 +321,26 @@
   <div class="startwith-inner">
     <div class="startwith-title">Sau începe căutarea de aici</div>
     <div class="startwith">
-      <div class="sw-card" onclick="toggleDropdown('season', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
-        <div class="swicon-circle">☀</div>
+      <div class="sw-card c-season" onclick="toggleDropdown('season', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+        <div class="swicon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><line x1="12" y1="2.5" x2="12" y2="5.2"/><line x1="12" y1="18.8" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="5.2" y2="12"/><line x1="18.8" y1="12" x2="21.5" y2="12"/><line x1="5.3" y1="5.3" x2="7.2" y2="7.2"/><line x1="16.8" y1="16.8" x2="18.7" y2="18.7"/><line x1="5.3" y1="18.7" x2="7.2" y2="16.8"/><line x1="16.8" y1="7.2" x2="18.7" y2="5.3"/></svg></div>
         <div class="swname">Sezon</div>
         <div class="swsub">Parfumuri potrivite anotimpului.</div>
         <div class="sw-arrow">→</div>
       </div>
-      <div class="sw-card" onclick="toggleDropdown('note', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
-        <div class="swicon-circle">✦</div>
+      <div class="sw-card c-note" onclick="toggleDropdown('note', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+        <div class="swicon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.2 4 5.5 7.4 5.5 10.3a5.5 5.5 0 1 1-11 0C6.5 10.4 8.8 7 12 3Z"/><path d="M9.3 15.2c0 1.4 1.1 2.4 2.5 2.4" stroke-width="1.1" opacity="0.6"/></svg></div>
         <div class="swname">Notă</div>
         <div class="swsub">Caută după notele olfactive preferate.</div>
         <div class="sw-arrow">→</div>
       </div>
-      <div class="sw-card" onclick="toggleDropdown('occasion', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
-        <div class="swicon-circle">♥</div>
+      <div class="sw-card c-occasion" onclick="toggleDropdown('occasion', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+        <div class="swicon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.2S3.8 15.2 3.8 9.4A4.4 4.4 0 0 1 12 6.8a4.4 4.4 0 0 1 8.2 2.6c0 5.8-8.2 10.8-8.2 10.8Z"/></svg></div>
         <div class="swname">Ocazie</div>
         <div class="swsub">Zi, seară sau o întâlnire specială.</div>
         <div class="sw-arrow">→</div>
       </div>
-      <div class="sw-card" onclick="activateDupeQuickStart();">
-        <div class="swicon-circle">◇</div>
+      <div class="sw-card c-dupe" onclick="activateDupeQuickStart();">
+        <div class="swicon-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M8.4 9h4.4v9.7a1 1 0 0 1-1 1h-2.4a1 1 0 0 1-1-1V9Z"/><path d="M9.6 9V6.8a1 1 0 0 1 1-1h.8a1 1 0 0 1 1 1V9"/><path d="M14.5 11.2h3.9v7.3a1 1 0 0 1-1 1h-1.9a1 1 0 0 1-1-1v-7.3Z" opacity="0.55"/><path d="M15.5 11.2V9.5a.8.8 0 0 1 .8-.8h.4a.8.8 0 0 1 .8.8v1.7" opacity="0.55"/></svg></div>
         <div class="swname">Dupe</div>
         <div class="swsub">Alternative accesibile pentru branduri cunoscute.</div>
         <div class="sw-arrow">→</div>
