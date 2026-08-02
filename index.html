@@ -124,6 +124,30 @@
   .sim-info .sname{ font-weight:600; font-size:14.5px; }
   .sim-info .sbrand{ font-size:11.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; }
 
+  /* COMPARATOR DE PRETURI */
+  .comparator-block{ max-width:1280px; margin:24px auto 0; padding:0 48px; }
+  .comparator-panel{ background:var(--card); box-shadow:var(--shadow); border-radius:20px; padding:34px 36px; text-align:center; }
+  .cmp-results{ margin-top:22px; text-align:left; display:flex; flex-direction:column; gap:14px; }
+  .cmp-msg{ font-family:'Fraunces',serif; font-style:italic; font-size:15px; color:var(--ink-soft); text-align:center; }
+  .cmp-card{ background:var(--bg); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+  .cmp-head{ display:flex; justify-content:space-between; align-items:center; padding:14px 18px; cursor:pointer; gap:10px; }
+  .cmp-head:hover{ background:var(--card); }
+  .cmp-brand{ font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.06em; font-weight:600; }
+  .cmp-name{ font-family:'Fraunces',serif; font-weight:700; font-size:17px; color:var(--green); }
+  .cmp-conc{ font-size:12px; color:var(--ink-soft); font-family:'Inter',sans-serif; font-weight:400; }
+  .cmp-details-link{ font-size:12px; font-weight:600; color:var(--terracotta-deep); white-space:nowrap; }
+  .cmp-table{ border-top:1px solid var(--line); }
+  .cmp-row{ display:flex; justify-content:space-between; align-items:center; padding:12px 18px; border-bottom:1px solid var(--line); background:var(--card); gap:12px; flex-wrap:wrap; }
+  .cmp-row:last-child{ border-bottom:none; }
+  .cmp-row.best{ background:#F2E4DC; }
+  .cmp-store{ font-weight:600; font-size:13.5px; }
+  .cmp-best-tag{ font-size:10px; font-weight:700; color:var(--terracotta-deep); text-transform:uppercase; letter-spacing:.04em; margin-left:8px; }
+  .cmp-price-wrap{ display:flex; align-items:center; gap:12px; }
+  .cmp-val{ font-family:'Fraunces',serif; font-size:16px; font-weight:700; color:var(--green); }
+  .cmp-buy{ background:var(--terracotta); color:#fff; text-decoration:none; font-size:11.5px; font-weight:700; padding:7px 14px; border-radius:16px; white-space:nowrap; }
+  .cmp-buy:hover{ background:var(--terracotta-deep); }
+  .cmp-none{ padding:12px 18px; font-size:12.5px; font-style:italic; color:var(--ink-soft); border-top:1px solid var(--line); background:var(--card); }
+
   /* TRENDING */
   .section{ max-width:1280px; margin:0 auto; padding:8px 48px; }
   .section-heading-row{ max-width:1280px; margin:52px auto 20px; padding:0 48px; display:flex; justify-content:space-between; align-items:baseline; }
@@ -146,6 +170,10 @@
   .filter-panel label:hover{ color:var(--terracotta-deep); }
   .filter-panel input[type="checkbox"]{ width:16px; height:16px; accent-color:var(--terracotta); cursor:pointer; }
   .clear-link{ margin-top:8px; background:none; border:none; color:var(--terracotta-deep); font-size:12.5px; font-weight:600; cursor:pointer; padding:8px 4px 0; }
+  .filter-toggle.active{ background:var(--terracotta); color:#fff; }
+  .note-search{ width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:'Inter',sans-serif; margin-bottom:10px; outline:none; }
+  .note-list{ max-height:230px; overflow-y:auto; }
+  .filter-panel.notes-panel{ min-width:260px; }
 
   .results-meta{ max-width:1280px; margin:0 auto; padding:18px 48px 4px; font-size:13.5px; color:var(--ink-soft); }
   .results-meta strong{ color:var(--ink); }
@@ -238,9 +266,10 @@
   </a>
   <nav>
     <a href="index.html" class="active">Descoperă</a>
-    <a href="index.html">Parfumuri</a>
-    <a href="index.html">Note</a>
-    <a href="index.html">Dupe Finder</a>
+    <a href="#" onclick="document.getElementById('entries').scrollIntoView({behavior:'smooth'}); return false;">Parfumuri</a>
+    <a href="#" onclick="toggleDropdown('note', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'}); return false;">Note</a>
+    <a href="#" onclick="activateDupeQuickStart(); return false;">Dupe Finder</a>
+    <a href="#" onclick="document.getElementById('comparatorBlock').scrollIntoView({behavior:'smooth'}); return false;">Comparator</a>
     <a href="despre.html">Despre noi</a>
     <a class="nav-cta" href="#" onclick="document.getElementById('searchInput').scrollIntoView({behavior:'smooth'}); document.getElementById('searchInput').focus(); return false;">Găsește-mi parfumul</a>
   </nav>
@@ -265,18 +294,33 @@
 
 <div class="ticker-bar" id="tickerBar"></div>
 <div class="chip-row-wrap">
-  <div class="chip-row">
-    <div class="chip-item" onclick="toggleDropdown('season'); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
-      <span class="cicon">☀</span><span class="cname">Sezon</span>
-    </div>
-    <div class="chip-item" onclick="toggleDropdown('gender'); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
-      <span class="cicon">◐</span><span class="cname">Gen</span>
-    </div>
-    <div class="chip-item" onclick="toggleDropdown('occasion'); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
-      <span class="cicon">♥</span><span class="cname">Ocazie</span>
-    </div>
-    <div class="chip-item" onclick="toggleDropdown('type'); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
-      <span class="cicon">◆</span><span class="cname">Tip</span>
+  <div class="startwith-inner">
+    <div class="startwith-title">Sau începe căutarea de aici</div>
+    <div class="startwith">
+      <div class="sw-card" onclick="toggleDropdown('season', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+        <div class="swicon-circle">☀</div>
+        <div class="swname">Sezon</div>
+        <div class="swsub">Parfumuri potrivite anotimpului.</div>
+        <div class="sw-arrow">→</div>
+      </div>
+      <div class="sw-card" onclick="toggleDropdown('note', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+        <div class="swicon-circle">✦</div>
+        <div class="swname">Notă</div>
+        <div class="swsub">Caută după notele olfactive preferate.</div>
+        <div class="sw-arrow">→</div>
+      </div>
+      <div class="sw-card" onclick="toggleDropdown('occasion', event); document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});">
+        <div class="swicon-circle">♥</div>
+        <div class="swname">Ocazie</div>
+        <div class="swsub">Zi, seară sau o întâlnire specială.</div>
+        <div class="sw-arrow">→</div>
+      </div>
+      <div class="sw-card" onclick="activateDupeQuickStart();">
+        <div class="swicon-circle">◇</div>
+        <div class="swname">Dupe</div>
+        <div class="swsub">Alternative accesibile pentru branduri cunoscute.</div>
+        <div class="sw-arrow">→</div>
+      </div>
     </div>
   </div>
 </div>
@@ -302,6 +346,18 @@
     </div>
     <datalist id="perfumeNames"></datalist>
     <div class="similar-results" id="similarResults"></div>
+  </div>
+</div>
+
+<div class="comparator-block" id="comparatorBlock">
+  <div class="comparator-panel">
+    <div class="stitle">Comparator de prețuri</div>
+    <div class="ssub">Nu vrei să răsfoiești? Caută direct un parfum și vezi în ce magazine e mai ieftin.</div>
+    <div class="similar-search">
+      <input id="comparatorInput" list="perfumeNames" type="text" placeholder="ex: Dior Sauvage, Yara Moi, Ambre Bleu..." onkeydown="if(event.key==='Enter') compareSearch();">
+      <button onclick="compareSearch()">Compară prețuri →</button>
+    </div>
+    <div class="cmp-results" id="comparatorResults"></div>
   </div>
 </div>
 
@@ -345,6 +401,17 @@
       <button class="clear-link" onclick="clearFilter('gender')">Golește</button>
     </div>
   </div>
+
+  <div class="filter-dd">
+    <button class="filter-toggle" onclick="toggleDropdown('note')">Notă <span class="fcount" id="noteFCount"></span> ▾</button>
+    <div class="filter-panel notes-panel" id="notePanel">
+      <input type="text" class="note-search" id="noteSearchInput" placeholder="Caută o notă (ex: vanilie, oud)..." oninput="filterNoteList(this.value)">
+      <div class="note-list" id="noteList"></div>
+      <button class="clear-link" onclick="clearFilter('note'); document.getElementById('noteSearchInput').value=''; filterNoteList('');">Golește</button>
+    </div>
+  </div>
+
+  <button class="filter-toggle" id="dupeToggleBtn" onclick="toggleDupeFilter()">◇ Doar dupe-uri</button>
 
   <button class="filter-toggle" id="clearAllBtn" style="display:none;" onclick="clearAllFilters()">✕ Șterge toate filtrele</button>
 </div>
@@ -393,10 +460,46 @@ function bottleSVG(){
   </svg>`;
 }
 
-let activeFilters = { season:[], type:[], occasion:[], gender:[] };
+let activeFilters = { season:[], type:[], occasion:[], gender:[], note:[] };
+let dupeOnly = false;
 let highlightId = null;
 
-function toggleDropdown(key){
+const NOTE_COUNTS = {};
+DATA.forEach(p=>{ [...p.top,...p.heart,...p.base].forEach(n=>{ NOTE_COUNTS[n]=(NOTE_COUNTS[n]||0)+1; }); });
+const NOTE_LIST = Object.keys(NOTE_COUNTS).sort((a,b)=> NOTE_COUNTS[b]-NOTE_COUNTS[a] || a.localeCompare(b,'ro'));
+
+function renderNoteList(){
+  document.getElementById('noteList').innerHTML = NOTE_LIST.map(n=>`
+    <label data-note="${n.toLowerCase()}"><input type="checkbox" value="${n}" onchange="onFilterCheck('note',this)"> ${n} <span style="color:var(--ink-soft); font-weight:400;">(${NOTE_COUNTS[n]})</span></label>
+  `).join('');
+}
+
+function filterNoteList(q){
+  const query = q.trim().toLowerCase();
+  document.querySelectorAll('#noteList label').forEach(l=>{
+    l.style.display = l.dataset.note.includes(query) ? 'flex' : 'none';
+  });
+}
+
+function toggleDupeFilter(){
+  dupeOnly = !dupeOnly;
+  updateFilterUI();
+  highlightId = null;
+  currentPage = 1;
+  render();
+}
+
+function activateDupeQuickStart(){
+  dupeOnly = true;
+  updateFilterUI();
+  highlightId = null;
+  currentPage = 1;
+  render();
+  document.getElementById('filterBlock').scrollIntoView({behavior:'smooth'});
+}
+
+function toggleDropdown(key, evt){
+  if(evt) evt.stopPropagation();
   const panel = document.getElementById(key+'Panel');
   const wasOpen = panel.classList.contains('open');
   document.querySelectorAll('.filter-panel').forEach(p=>p.classList.remove('open'));
@@ -427,16 +530,25 @@ function clearFilter(key){
 }
 
 function clearAllFilters(){
-  ['season','occasion','type','gender'].forEach(clearFilter);
+  ['season','occasion','type','gender','note'].forEach(clearFilter);
+  document.getElementById('noteSearchInput').value = '';
+  filterNoteList('');
+  dupeOnly = false;
+  updateFilterUI();
+  currentPage = 1;
+  render();
 }
 
 function updateFilterUI(){
-  ['season','occasion','type','gender'].forEach(key=>{
+  ['season','occasion','type','gender','note'].forEach(key=>{
     const n = activeFilters[key].length;
     document.getElementById(key+'FCount').textContent = n>0 ? n : '';
   });
-  const anyActive = activeFilters.season.length || activeFilters.occasion.length || activeFilters.type.length || activeFilters.gender.length;
+  const anyActive = activeFilters.season.length || activeFilters.occasion.length || activeFilters.type.length || activeFilters.gender.length || activeFilters.note.length || dupeOnly;
   document.getElementById('clearAllBtn').style.display = anyActive ? 'inline-block' : 'none';
+  const dupeBtn = document.getElementById('dupeToggleBtn');
+  dupeBtn.classList.toggle('active', dupeOnly);
+  dupeBtn.textContent = dupeOnly ? '✕ Doar dupe-uri (activ)' : '◇ Doar dupe-uri';
 }
 
 document.getElementById('searchInput').addEventListener('input', ()=>{ highlightId=null; currentPage=1; render(); });
@@ -519,6 +631,58 @@ function findSimilar(){
 
 function jumpToFromSimilar(id){
   window.location.href = `produs.html?id=${id}`;
+}
+
+function compareOffersHTML(p){
+  const allOffers = [...(p.offers||[])];
+  if(p.price.val && !allOffers.some(o=>o.buyLink===p.price.buyLink)){
+    allOffers.push({store:p.price.src, price:p.price.val, buyLink:p.price.buyLink});
+  }
+  if(allOffers.length===0){
+    return `<div class="cmp-none">${p.price.src || 'Preț indisponibil momentan'}</div>`;
+  }
+  const parsePrice = s => parseFloat(String(s).replace(/[^\d.,]/g,'').replace(',','.'));
+  allOffers.sort((a,b)=>parsePrice(a.price)-parsePrice(b.price));
+  const minPrice = parsePrice(allOffers[0].price);
+  return `<div class="cmp-table">` + allOffers.map(o=>`
+    <div class="cmp-row ${parsePrice(o.price)===minPrice?'best':''}">
+      <div><span class="cmp-store">${o.store}</span>${parsePrice(o.price)===minPrice?'<span class="cmp-best-tag">Cel mai bun preț</span>':''}</div>
+      <div class="cmp-price-wrap"><span class="cmp-val">${o.price}</span><a class="cmp-buy" href="${o.buyLink}" target="_blank" rel="nofollow sponsored noopener">Cumpără →</a></div>
+    </div>`).join('') + `</div>`;
+}
+
+function compareResultCard(p){
+  return `<div class="cmp-card">
+    <div class="cmp-head" onclick="window.location.href='produs.html?id=${p.id}'">
+      <div>
+        <div class="cmp-brand">${p.brand}</div>
+        <div class="cmp-name">${p.name} <span class="cmp-conc">${p.conc}</span></div>
+      </div>
+      <span class="cmp-details-link">Detalii →</span>
+    </div>
+    ${compareOffersHTML(p)}
+  </div>`;
+}
+
+function compareSearch(){
+  const raw = document.getElementById('comparatorInput').value.trim();
+  const q = raw.toLowerCase();
+  const box = document.getElementById('comparatorResults');
+  if(!q){ box.innerHTML = ''; return; }
+
+  let matches = DATA.filter(p => (p.brand+' '+p.name).toLowerCase().includes(q));
+  let note = '';
+  if(matches.length===0){
+    matches = DATA.filter(p => p.dupeOf && p.dupeOf.toLowerCase().includes(q));
+    if(matches.length>0){
+      note = `<div class="cmp-msg" style="margin-bottom:2px;">Nu avem "<b style="color:var(--ink); font-style:normal;">${raw}</b>" ca atare, dar avem dupe-uri pentru el — compară prețurile:</div>`;
+    }
+  }
+  if(matches.length===0){
+    box.innerHTML = `<div class="cmp-msg">Nu am găsit încă acest parfum în arhivă. Încearcă alt nume, sau caută direct în lista de mai jos.</div>`;
+    return;
+  }
+  box.innerHTML = note + matches.slice(0,8).map(compareResultCard).join('');
 }
 
 function cardHTML(p, i){
@@ -619,6 +783,11 @@ function render(){
     if(activeFilters.occasion.length && !activeFilters.occasion.some(o=>(p.occasions||[]).includes(o))) return false;
     if(activeFilters.type.length && !activeFilters.type.includes(p.type)) return false;
     if(activeFilters.gender.length && !activeFilters.gender.includes(p.gender)) return false;
+    if(activeFilters.note.length){
+      const pnotes = [...p.top,...p.heart,...p.base].map(x=>x.toLowerCase());
+      if(!activeFilters.note.every(n=>pnotes.includes(n.toLowerCase()))) return false;
+    }
+    if(dupeOnly && !p.dupeOf) return false;
     return true;
   });
 
@@ -653,6 +822,8 @@ function renderTicker(){
     `<span class="dot">·</span><span><strong>${stores}</strong> magazine comparate</span>` +
     `<span class="dot">·</span><span><strong>${withOffers}</strong> cu comparator de preț activ</span>`;
 }
+document.getElementById('perfumeNames').innerHTML = DATA.map(p=>`<option value="${p.brand} ${p.name}">`).join('');
+renderNoteList();
 renderTicker();
 renderTrending();
 render();
