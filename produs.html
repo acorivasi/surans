@@ -175,10 +175,16 @@ if(!p){
     ? `<img src="${p.image}" alt="${p.brand} ${p.name}">`
     : `<div class="serif" style="font-size:22px; color:var(--ink-soft);">${p.brand} ${p.name}</div>`;
 
-  const buyBlock = p.price.buyLink
-    ? `<div><div class="price">${p.price.val}</div><div class="src">${p.price.src}</div></div>
-       <a class="buy-btn-lg" href="${p.price.buyLink}" target="_blank" rel="nofollow sponsored noopener">Cumpără →</a>`
-    : `<div class="no-price">${p.price.src}</div>`;
+  const parsePrice = s => parseFloat(String(s).replace(/[^\d.,]/g,'').replace(',','.'));
+  const allOffers = [];
+  if(p.price.val) allOffers.push({store:p.price.src, price:p.price.val, buyLink:p.price.buyLink});
+  (p.offers||[]).forEach(o=>{ if(!allOffers.some(x=>x.buyLink===o.buyLink)) allOffers.push(o); });
+  allOffers.sort((a,b)=>parsePrice(a.price)-parsePrice(b.price));
+
+  const buyBlock = allOffers.length>0
+    ? `<div><div class="price">${allOffers[0].price}</div><div class="src">${allOffers[0].store}${allOffers.length>1 ? ` · cel mai bun preț din ${allOffers.length} magazine` : ''}</div></div>
+       <a class="buy-btn-lg" href="${allOffers[0].buyLink}" target="_blank" rel="nofollow sponsored noopener">Cumpără →</a>`
+    : `<div class="no-price">${p.price.src || 'Preț indisponibil momentan'}</div>`;
 
   main.innerHTML = `
     <div class="product-grid">
@@ -210,14 +216,7 @@ if(!p){
     <div class="similar-grid" id="similarGrid"></div>
   `;
 
-  if(p.offers && p.offers.length > 0){
-    const allOffers = [...p.offers];
-    // adaugam si oferta curenta daca nu e deja in lista
-    if(p.price.val && !allOffers.some(o=>o.buyLink===p.price.buyLink)){
-      allOffers.push({store:p.price.src, price:p.price.val, buyLink:p.price.buyLink});
-    }
-    const parsePrice = s => parseFloat(String(s).replace(/[^\d.,]/g,'').replace(',','.'));
-    allOffers.sort((a,b)=>parsePrice(a.price)-parsePrice(b.price));
+  if(allOffers.length > 1){
     const minPrice = parsePrice(allOffers[0].price);
     document.getElementById('compareBlock').innerHTML = `
       <div class="compare-title">Compară prețul · ${allOffers.length} magazine</div>
