@@ -3744,3 +3744,18 @@ function jaccard(a, b){
   const union = new Set([...setA, ...setB]).size;
   return union===0 ? 0 : inter/union;
 }
+
+function getVolumeMl(p){
+  let m = p.conc && p.conc.match(/(\d+)\s*ml/i);
+  if(m) return parseInt(m[1], 10);
+  m = p.image && p.image.match(/(\d+)[\s-]*ml\b/i);
+  if(m) return parseInt(m[1], 10);
+  return null;
+}
+
+function pricePerMl(priceStr, volumeMl){
+  if(!volumeMl) return null;
+  const val = parseFloat(String(priceStr).replace(/[^\d.,]/g,'').replace(',','.'));
+  if(!val) return null;
+  return (val/volumeMl).toFixed(2);
+}

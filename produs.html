@@ -72,6 +72,7 @@
 
   .buy-panel{ display:flex; align-items:center; justify-content:space-between; background:var(--card); box-shadow:var(--shadow); border-radius:14px; padding:20px 24px; gap:16px; flex-wrap:wrap; }
   .buy-panel .price{ font-family:'Fraunces',serif; font-size:28px; font-weight:700; color:var(--green); }
+  .buy-panel .ppm{ font-size:12px; color:var(--ink-soft); margin-top:2px; }
   .buy-panel .src{ font-size:12.5px; color:var(--ink-soft); margin-top:2px; }
   .buy-btn-lg{ background:var(--terracotta); color:#fff; text-decoration:none; font-weight:700; font-size:13px; letter-spacing:.04em; text-transform:uppercase; padding:14px 30px; border-radius:24px; white-space:nowrap; }
   .buy-btn-lg:hover{ background:var(--terracotta-deep); }
@@ -85,6 +86,7 @@
   .compare-row .store{ font-weight:600; font-size:14px; }
   .compare-row .best-tag{ font-size:10px; font-weight:700; color:var(--terracotta-deep); text-transform:uppercase; letter-spacing:.04em; margin-left:8px; }
   .compare-row .cprice{ display:flex; align-items:center; gap:14px; }
+  .compare-row .cprice .ppm{ font-size:11px; color:var(--ink-soft); }
   .compare-row .cprice .val{ font-family:'Fraunces',serif; font-size:18px; font-weight:700; color:var(--green); }
   .compare-row .cbuy{ background:var(--terracotta); color:#fff; text-decoration:none; font-size:12px; font-weight:700; padding:8px 15px; border-radius:16px; }
   .compare-row .cbuy:hover{ background:var(--terracotta-deep); }
@@ -181,8 +183,10 @@ if(!p){
   (p.offers||[]).forEach(o=>{ if(!allOffers.some(x=>x.buyLink===o.buyLink)) allOffers.push(o); });
   allOffers.sort((a,b)=>parsePrice(a.price)-parsePrice(b.price));
 
+  const volumeMl = getVolumeMl(p);
+  const ppmMain = allOffers.length>0 ? pricePerMl(allOffers[0].price, volumeMl) : null;
   const buyBlock = allOffers.length>0
-    ? `<div><div class="price">${allOffers[0].price}</div><div class="src">${allOffers[0].store}${allOffers.length>1 ? ` · cel mai bun preț din ${allOffers.length} magazine` : ''}</div></div>
+    ? `<div><div class="price">${allOffers[0].price}</div>${ppmMain?`<div class="ppm">${ppmMain} lei/ml${volumeMl?` · ${volumeMl}ml`:''}</div>`:''}<div class="src">${allOffers[0].store}${allOffers.length>1 ? ` · cel mai bun preț din ${allOffers.length} magazine` : ''}</div></div>
        <a class="buy-btn-lg" href="${allOffers[0].buyLink}" target="_blank" rel="nofollow sponsored noopener">Cumpără →</a>`
     : `<div class="no-price">${p.price.src || 'Preț indisponibil momentan'}</div>`;
 
@@ -221,11 +225,14 @@ if(!p){
     document.getElementById('compareBlock').innerHTML = `
       <div class="compare-title">Compară prețul · ${allOffers.length} magazine</div>
       <div class="compare-table">
-        ${allOffers.map(o=>`
+        ${allOffers.map(o=>{
+          const ppm = pricePerMl(o.price, volumeMl);
+          return `
           <div class="compare-row ${parsePrice(o.price)===minPrice?'best':''}">
             <div><span class="store">${o.store}</span>${parsePrice(o.price)===minPrice?'<span class="best-tag">Cel mai bun preț</span>':''}</div>
-            <div class="cprice"><span class="val">${o.price}</span><a class="cbuy" href="${o.buyLink}" target="_blank" rel="nofollow sponsored noopener">Cumpără →</a></div>
-          </div>`).join('')}
+            <div class="cprice">${ppm?`<span class="ppm">${ppm} lei/ml</span>`:''}<span class="val">${o.price}</span><a class="cbuy" href="${o.buyLink}" target="_blank" rel="nofollow sponsored noopener">Cumpără →</a></div>
+          </div>`;
+        }).join('')}
       </div>
     `;
   }
