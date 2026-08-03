@@ -789,7 +789,8 @@ function cardHTML(p, i){
   const seasonBadges = p.seasons.map(s=>`<span class="sb">${SEASON_LABEL[s]}</span>`).join('');
   const relTags = p.relations.map(r=>`<button class="rel-tag" onclick="event.stopPropagation(); window.location.href='produs.html?id=${r.target}';">${r.label}</button>`).join('');
   const dupeTag = p.dupeOf ? `<span class="accord-tag" style="border-color:var(--coral);">Dupe: ${p.dupeOf}</span>` : '';
-  const compareBadge = (p.offers && p.offers.length>0) ? `<div class="compare-hint">⚖ ${p.offers.length+1} magazine</div>` : '';
+  const storeCount = new Set([p.price.buyLink, ...(p.offers||[]).map(o=>o.buyLink)].filter(Boolean)).size;
+  const compareBadge = (p.offers && p.offers.length>0 && storeCount>1) ? `<div class="compare-hint">⚖ ${storeCount} magazine</div>` : '';
   const ppm = p.price.val ? pricePerMl(p.price.val, getVolumeMl(p)) : null;
   const ppmLine = ppm ? `<div class="ppm">${ppm} lei/ml</div>` : '';
   const priceBlock = p.price.val
