@@ -28,10 +28,16 @@
   nav a{ color:var(--ink); text-decoration:none; }
   nav a:hover{ color:var(--terracotta); }
   nav a.active{ border-bottom:1.5px solid var(--ink); padding-bottom:4px; }
+  .nav-toggle{ display:none; background:none; border:none; font-size:22px; line-height:1; color:var(--ink); cursor:pointer; padding:6px 4px; }
 
-  main{ max-width:720px; margin:0 auto; padding:64px 32px 90px; }
-  .eyebrow{ font-size:11.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--terracotta); margin-bottom:16px; text-align:center; }
-  h1{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(30px,4.4vw,44px); line-height:1.15; margin-bottom:36px; text-align:center; color:var(--ink); }
+  .page-banner{ position:relative; min-height:220px; display:flex; align-items:center; overflow:hidden; }
+  .page-banner-photo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:22% 40%; z-index:0; }
+  .page-banner-scrim{ position:absolute; inset:0; z-index:0; background:linear-gradient(90deg, var(--bg) 0%, rgba(247,247,245,0.85) 38%, rgba(247,247,245,0.35) 62%, rgba(247,247,245,0) 85%); }
+  .page-banner-inner{ position:relative; z-index:1; max-width:720px; margin:0 auto; padding:0 32px; width:100%; }
+  .page-banner .eyebrow{ font-size:11.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--terracotta); margin-bottom:14px; }
+  .page-banner h1{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(28px,4vw,40px); line-height:1.15; color:var(--ink); }
+
+  main{ max-width:720px; margin:0 auto; padding:44px 32px 90px; }
 
   .story{ background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); padding:40px 44px; }
   .story p{ margin-bottom:20px; font-size:16px; color:var(--ink); }
@@ -48,23 +54,40 @@
   .cta-primary:hover{ background:var(--terracotta); }
 
   footer{ padding:26px 48px 50px; font-size:12.5px; color:var(--ink-soft); text-align:center; border-top:1px solid var(--line); }
+
+  @media (max-width:900px){
+    header{ padding:16px 20px; position:relative; }
+    .nav-toggle{ display:block; }
+    nav{ display:none; position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; background:var(--bg); border-bottom:1px solid var(--line); padding:6px 20px 18px; box-shadow:var(--shadow-hover); }
+    nav.open{ display:flex; }
+    nav a{ padding:13px 2px; border-bottom:1px solid var(--line); }
+    nav a:last-child{ border-bottom:none; }
+    .page-banner-inner, main, footer{ padding-left:20px; padding-right:20px; }
+  }
 </style>
 </head>
 <body>
 
 <header>
   <a class="wordmark-wrap" href="index.html"><span class="wordmark">Surans</span></a>
-  <nav>
+  <button class="nav-toggle" id="navToggle" onclick="toggleMobileNav()" aria-label="Deschide meniul">☰</button>
+  <nav id="mainNav">
     <a href="index.html">Index</a>
     <a href="articole.html">Articole</a>
     <a href="despre.html" class="active">Despre noi</a>
   </nav>
 </header>
 
-<main>
-  <div class="eyebrow">De ce există Surans</div>
-  <h1>O poveste despre parfumuri, timp pierdut și o soluție mai bună.</h1>
+<div class="page-banner">
+  <img class="page-banner-photo" src="hero-perfume-2.jpg" alt="">
+  <div class="page-banner-scrim"></div>
+  <div class="page-banner-inner">
+    <div class="eyebrow">De ce există Surans</div>
+    <h1>O poveste despre parfumuri, timp pierdut și o soluție mai bună.</h1>
+  </div>
+</div>
 
+<main>
   <div class="story">
     <p>Surans a pornit dintr-o pasiune simplă: îmi plac parfumurile. Și, ca orice pasionat, înainte de fiecare achiziție îmi petreceam ore bune căutând — urmăream influenceri, citeam recenzii, comparam note și prețuri de pe zeci de site-uri diferite, doar ca să fiu sigură că fac alegerea potrivită.</p>
 
@@ -82,5 +105,13 @@
 
 <footer>SURANS · fiecare specimen e datat și sursat individual · afilierea nu influențează ordinea</footer>
 
+<script>
+function toggleMobileNav(){
+  document.getElementById('mainNav').classList.toggle('open');
+}
+document.getElementById('mainNav').addEventListener('click', (e)=>{
+  if(e.target.tagName==='A') document.getElementById('mainNav').classList.remove('open');
+});
+</script>
 </body>
 </html>
