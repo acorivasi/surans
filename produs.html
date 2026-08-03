@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Surans — Detaliu parfum</title>
+<meta name="description" content="Compară prețul unui parfum din mai multe magazine românești și vezi piramida completă de note, direct pe Surans.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231C1813'/%3E%3Ctext x='50' y='71' font-family='Georgia,serif' font-size='58' font-weight='700' fill='%23F7F7F5' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Surans">
+<meta property="og:locale" content="ro_RO">
+<meta property="og:title" content="Surans — Detaliu parfum">
+<meta property="og:description" content="Compară prețul unui parfum din mai multe magazine românești și vezi piramida completă de note, direct pe Surans.">
+<meta property="og:image" content="https://www.surans.ro/hero-perfume-2.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Surans — Detaliu parfum">
+<meta name="twitter:description" content="Compară prețul unui parfum din mai multe magazine românești și vezi piramida completă de note, direct pe Surans.">
+<meta name="twitter:image" content="https://www.surans.ro/hero-perfume-2.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="data.js"></script>
@@ -170,6 +182,27 @@ if(!p){
 } else {
   document.title = `${p.brand} ${p.name} — Surans`;
   crumb.innerHTML = `<a href="index.html">Index</a> / ${p.brand} ${p.name}`;
+
+  const setMeta = (attr, key, value) => {
+    let el = document.querySelector(`meta[${attr}="${key}"]`);
+    if(!el){ el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
+    el.setAttribute('content', value);
+  };
+  const pageTitle = `${p.brand} ${p.name} — Surans`;
+  const pageDesc = `${p.name} de ${p.brand}, ${p.conc} — ${p.experience}`.slice(0,200);
+  const pageUrl = `https://www.surans.ro/produs.html?id=${p.id}`;
+  const pageImg = p.image || 'https://www.surans.ro/hero-perfume-2.jpg';
+  setMeta('name','description', pageDesc);
+  setMeta('property','og:title', pageTitle);
+  setMeta('property','og:description', pageDesc);
+  setMeta('property','og:image', pageImg);
+  setMeta('property','og:url', pageUrl);
+  setMeta('name','twitter:title', pageTitle);
+  setMeta('name','twitter:description', pageDesc);
+  setMeta('name','twitter:image', pageImg);
+  let canon = document.querySelector('link[rel="canonical"]');
+  if(!canon){ canon = document.createElement('link'); canon.setAttribute('rel','canonical'); document.head.appendChild(canon); }
+  canon.setAttribute('href', pageUrl);
 
   const dupeTag = p.dupeOf ? `<span class="tag dupe">Dupe: ${p.dupeOf}</span>` : '';
   const statusLabel = p.status==='verified' ? 'Verificat' : (p.status==='feed' ? 'Din feed' : 'Parțial');
