@@ -265,7 +265,9 @@
   /* BENEFITS */
   .benefits-wrap{ padding:10px 48px 60px; }
   .benefits{ max-width:1280px; margin:0 auto; background:var(--card); border-radius:24px; box-shadow:var(--shadow); display:grid; grid-template-columns:repeat(4,1fr); gap:20px; padding:34px 30px; }
-  .benefit{ text-align:center; padding:8px; }
+  .benefit{ text-align:center; padding:8px; border-radius:14px; transition:background-color .15s ease, transform .15s ease; }
+  .benefit.clickable{ cursor:pointer; }
+  .benefit.clickable:hover{ background:var(--bg); transform:translateY(-2px); }
   .benefit .bicon{ width:44px; height:44px; border-radius:50%; background:#F2E4DC; color:var(--terracotta-deep); display:flex; align-items:center; justify-content:center; font-size:19px; margin:0 auto 12px; }
   .benefit .bname{ font-weight:700; font-size:14.5px; margin-bottom:4px; color:var(--green); }
   .benefit .bsub{ font-size:12.5px; color:var(--ink-soft); }
@@ -481,9 +483,9 @@
 
 <div class="benefits-wrap">
   <div class="benefits">
-    <div class="benefit"><div class="bicon">✦</div><div class="bname">Recomandări inteligente</div><div class="bsub">Rezultate personalizate pe gustul tău</div></div>
-    <div class="benefit"><div class="bicon">⚖</div><div class="bname">Compară & Explorează</div><div class="bsub">Comparații directe între parfumuri similare</div></div>
-    <div class="benefit"><div class="bicon">◈</div><div class="bname">Cele mai bune prețuri</div><div class="bsub">Din magazine de încredere</div></div>
+    <div class="benefit clickable" onclick="document.getElementById('searchInput').scrollIntoView({behavior:'smooth', block:'center'}); document.getElementById('searchInput').focus();"><div class="bicon">✦</div><div class="bname">Recomandări inteligente</div><div class="bsub">Rezultate personalizate pe gustul tău</div></div>
+    <div class="benefit clickable" onclick="document.getElementById('comparatorBlock').scrollIntoView({behavior:'smooth'});"><div class="bicon">⚖</div><div class="bname">Compară & Explorează</div><div class="bsub">Comparații directe între parfumuri similare</div></div>
+    <div class="benefit clickable" onclick="document.getElementById('comparatorBlock').scrollIntoView({behavior:'smooth'});"><div class="bicon">◈</div><div class="bname">Cele mai bune prețuri</div><div class="bsub">Din magazine de încredere</div></div>
     <div class="benefit"><div class="bicon">✓</div><div class="bname">Date verificate</div><div class="bsub">Fiecare preț are sursă și dată</div></div>
   </div>
 </div>
