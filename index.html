@@ -476,6 +476,12 @@
       <label><input type="checkbox" value="Unisex" onchange="onFilterCheck('gender',this)"> Unisex</label>
     </div>
 
+    <div class="filter-group" id="brandPanel">
+      <div class="filter-group-title">Brand <span class="fcount" id="brandFCount"></span></div>
+      <input type="text" class="note-search" id="brandSearchInput" placeholder="Caută un brand (ex: Lattafa)..." oninput="filterBrandList(this.value)">
+      <div class="note-list" id="brandList"></div>
+    </div>
+
     <div class="filter-group" id="notePanel">
       <div class="filter-group-title">Notă <span class="fcount" id="noteFCount"></span></div>
       <input type="text" class="note-search" id="noteSearchInput" placeholder="Caută o notă (ex: vanilie, oud)..." oninput="filterNoteList(this.value)">
@@ -532,7 +538,7 @@ function bottleSVG(){
   </svg>`;
 }
 
-let activeFilters = { season:[], type:[], occasion:[], gender:[], note:[] };
+let activeFilters = { season:[], type:[], occasion:[], gender:[], note:[], brand:[] };
 let dupeOnly = false;
 let highlightId = null;
 
@@ -540,10 +546,27 @@ const NOTE_COUNTS = {};
 DATA.forEach(p=>{ [...p.top,...p.heart,...p.base].forEach(n=>{ NOTE_COUNTS[n]=(NOTE_COUNTS[n]||0)+1; }); });
 const NOTE_LIST = Object.keys(NOTE_COUNTS).sort((a,b)=> NOTE_COUNTS[b]-NOTE_COUNTS[a] || a.localeCompare(b,'ro'));
 
+const BRAND_COUNTS = {};
+DATA.forEach(p=>{ BRAND_COUNTS[p.brand] = (BRAND_COUNTS[p.brand]||0)+1; });
+const BRAND_LIST = Object.keys(BRAND_COUNTS).sort((a,b)=> BRAND_COUNTS[b]-BRAND_COUNTS[a] || a.localeCompare(b,'ro'));
+
 function renderNoteList(){
   document.getElementById('noteList').innerHTML = NOTE_LIST.map(n=>`
     <label data-note="${n.toLowerCase()}"><input type="checkbox" value="${n}" onchange="onFilterCheck('note',this)"> ${n} <span style="color:var(--ink-soft); font-weight:400;">(${NOTE_COUNTS[n]})</span></label>
   `).join('');
+}
+
+function renderBrandList(){
+  document.getElementById('brandList').innerHTML = BRAND_LIST.map(b=>`
+    <label data-brand="${b.toLowerCase()}"><input type="checkbox" value="${b}" onchange="onFilterCheck('brand',this)"> ${b} <span style="color:var(--ink-soft); font-weight:400;">(${BRAND_COUNTS[b]})</span></label>
+  `).join('');
+}
+
+function filterBrandList(q){
+  const query = q.trim().toLowerCase();
+  document.querySelectorAll('#brandList label').forEach(l=>{
+    l.style.display = l.dataset.brand.includes(query) ? 'flex' : 'none';
+  });
 }
 
 function filterNoteList(q){
@@ -663,9 +686,11 @@ function clearFilter(key){
 }
 
 function clearAllFilters(){
-  ['season','occasion','type','gender','note'].forEach(clearFilter);
+  ['season','occasion','type','gender','note','brand'].forEach(clearFilter);
   document.getElementById('noteSearchInput').value = '';
   filterNoteList('');
+  document.getElementById('brandSearchInput').value = '';
+  filterBrandList('');
   dupeOnly = false;
   updateFilterUI();
   currentPage = 1;
@@ -674,7 +699,7 @@ function clearAllFilters(){
 
 function updateFilterUI(){
   let total = 0;
-  ['season','occasion','type','gender','note'].forEach(key=>{
+  ['season','occasion','type','gender','note','brand'].forEach(key=>{
     const n = activeFilters[key].length;
     document.getElementById(key+'FCount').textContent = n>0 ? n : '';
     total += n;
@@ -872,6 +897,7 @@ function passesFilters(p){
   if(activeFilters.occasion.length && !activeFilters.occasion.some(o=>(p.occasions||[]).includes(o))) return false;
   if(activeFilters.type.length && !activeFilters.type.includes(p.type)) return false;
   if(activeFilters.gender.length && !activeFilters.gender.includes(p.gender)) return false;
+  if(activeFilters.brand.length && !activeFilters.brand.includes(p.brand)) return false;
   if(activeFilters.note.length){
     const pnotes = [...p.top,...p.heart,...p.base].map(x=>x.toLowerCase());
     if(!activeFilters.note.every(n=>pnotes.includes(n.toLowerCase()))) return false;
@@ -977,6 +1003,7 @@ function renderTicker(){
 }
 document.getElementById('perfumeNames').innerHTML = DATA.map(p=>`<option value="${p.brand} ${p.name}">`).join('');
 renderNoteList();
+renderBrandList();
 renderTicker();
 renderTrending();
 render();
