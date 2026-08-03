@@ -3733,6 +3733,33 @@ const DATA = [
     seasons:["Spring", "Summer"], occasions:["Day", "Romantic"], experience:"Deschide cu note verzi, note acvatice, mint, se dezvoltă spre ginger, coconut, smochina, și se așază pe o bază de sandalwood, tonka bean. Inspirat, conform vânzătorului, din LE BEAU PARADISE GARDEN — Jean Paul Gaultier.",
     status:"feed", dupeOf:"LE BEAU PARADISE GARDEN — Jean Paul Gaultier", price:{val:"80.36 lei", src:"12note.ro", buyLink:"https://event.2performant.com/events/click?ad_type=product_store&unique=hWufFCnZbDUd&aff_code=98d50c4a0&campaign_unique=70094ad56"},
     image:"https://cdnmpro.com/638752933/p/raw/4/glacier-heaven-maison-alhambra-100-ml-apa-de-parfum-barbati~8860024.jpg", relations:[], offers:[] },
+
+  // --- Lot Notino, litera A — doar nota/descriere verificate, pret in curs de completare ---
+  { id:"SUR900", brand:"Armani", name:"Sì", conc:"EDP", type:"Designer", gender:"Women", love:false,
+    accords:["Floral", "Woody"], top:["Coacăză Neagră"], heart:["Freesia", "Trandafir"], base:["Ambroxan", "Patchouli", "Vanilla"],
+    seasons:["Autumn", "Winter"], occasions:["Day", "Evening", "Romantic"], experience:"Deschide cu coacăză neagră, se dezvoltă spre freesia și trandafir, și se așază pe o bază caldă de ambroxan, patchouli și vanilie. Parfumul-semnătură al colecției Armani Sì.",
+    status:"partial", dupeOf:null, price:{val:null, src:"Preț în curs de completare — Notino.ro", buyLink:null},
+    image:null, relations:[], offers:[] },
+  { id:"SUR901", brand:"Armani", name:"Acqua di Giò Profondo", conc:"EDP", type:"Designer", gender:"Men", love:false,
+    accords:["Fresh", "Woody"], top:["Lemon", "Bergamot", "Orange", "Mandarin"], heart:["Jasmine", "Freesia", "Rosemary", "Coriander"], base:["Cedar", "Musk", "Amber", "Patchouli"],
+    seasons:["Spring", "Summer"], occasions:["Day", "Evening"], experience:"Deschide cu lămâie, bergamotă, portocală și mandarină, se dezvoltă spre iasomie, freesia, rozmarin și coriandru, și se așază pe o bază de cedru, mosc, chihlimbar și patchouli. Varianta „adâncă” a colecției Acqua di Giò.",
+    status:"partial", dupeOf:null, price:{val:null, src:"Preț în curs de completare — Notino.ro", buyLink:null},
+    image:null, relations:[], offers:[] },
+  { id:"SUR902", brand:"Azzaro", name:"Wanted", conc:"EDP", type:"Designer", gender:"Men", love:false,
+    accords:["Aromatic", "Woody"], top:["Juniper Berries"], heart:["Sage"], base:["Vetiver"],
+    seasons:["Spring", "Summer"], occasions:["Day", "Evening"], experience:"O compoziție simplă și directă — boabe de ienupăr la vârf, salvie în inimă, și vetiver ca bază — pentru un profil aromatic-lemnos versatil.",
+    status:"partial", dupeOf:null, price:{val:null, src:"Preț în curs de completare — Notino.ro", buyLink:null},
+    image:null, relations:[], offers:[] },
+  { id:"SUR903", brand:"Acqua di Parma", name:"Colonia", conc:"EDC", type:"Designer", gender:"Unisex", love:false,
+    accords:["Fresh", "Woody"], top:["Bergamot", "Neroli"], heart:["Violet", "Damask Rose", "Lavender"], base:["Patchouli", "Cedar"],
+    seasons:["Spring", "Summer"], occasions:["Day", "Evening"], experience:"Un clasic italian din 1916 — bergamotă și neroli la vârf, violetă, trandafir de Damasc și lavandă în inimă, pe o bază de patchouli și cedru. Eleganță atemporală, potrivită pentru orice ocazie.",
+    status:"partial", dupeOf:null, price:{val:null, src:"Preț în curs de completare — Notino.ro", buyLink:null},
+    image:null, relations:[], offers:[] },
+  { id:"SUR904", brand:"Antonio Banderas", name:"The Secret", conc:"EDT", type:"Designer", gender:"Men", love:false,
+    accords:["Aromatic", "Spicy"], top:["Bergamot", "Lime"], heart:["Cardamom", "Jasmine"], base:["Musk", "Amber", "Cedarwood"],
+    seasons:["Autumn", "Winter"], occasions:["Day", "Evening"], experience:"Deschide proaspăt cu bergamotă și lime, se dezvoltă spre cardamom și iasomie, și se așază pe o bază caldă de mosc, chihlimbar și lemn de cedru.",
+    status:"partial", dupeOf:null, price:{val:null, src:"Preț în curs de completare — Notino.ro", buyLink:null},
+    image:null, relations:[], offers:[] },
 ];
 
 const SEASON_LABEL = { Spring:"Primăvară", Summer:"Vară", Autumn:"Toamnă", Winter:"Iarnă" };
