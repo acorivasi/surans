@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surans — Articol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="articles.js"></script>
+<style>
+  :root{
+    --bg:#F7F7F5;
+    --green:#37351B;
+    --terracotta:#565436;
+    --terracotta-deep:#1C1813;
+    --ink:#1C1813;
+    --ink-soft:#9599A0;
+    --card:#FFFFFF;
+    --line:#E8E7E3;
+    --shadow: 0 4px 14px rgba(28,24,19,0.05);
+    --shadow-hover: 0 10px 26px rgba(28,24,19,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; font-size:15.5px; line-height:1.6; }
+  .serif{ font-family:'Fraunces',serif; }
+  a{ color:inherit; }
+
+  header{ padding:22px 48px; display:flex; justify-content:space-between; align-items:center; background:var(--bg); position:sticky; top:0; z-index:30; border-bottom:1px solid var(--line); }
+  .wordmark-wrap{ text-decoration:none; }
+  .wordmark{ font-family:'Inter',sans-serif; font-weight:900; font-size:20px; letter-spacing:.1em; color:var(--ink); display:block; text-transform:uppercase; }
+  nav{ display:flex; gap:26px; font-size:11.5px; font-weight:600; align-items:center; text-transform:uppercase; letter-spacing:.08em; }
+  nav a{ color:var(--ink); text-decoration:none; }
+  nav a:hover{ color:var(--terracotta-deep); }
+  .nav-cta{ background:var(--terracotta); color:#fff !important; padding:10px 20px; border-radius:2px; font-weight:700; font-size:11px; letter-spacing:.06em; }
+  .nav-cta:hover{ background:var(--terracotta-deep); }
+  .nav-toggle{ display:none; background:none; border:none; font-size:22px; line-height:1; color:var(--ink); cursor:pointer; padding:6px 4px; }
+
+  .breadcrumb{ padding:20px 48px 0; font-size:13px; color:var(--ink-soft); max-width:760px; margin:0 auto; }
+  .breadcrumb a{ color:var(--terracotta-deep); text-decoration:none; font-weight:600; }
+
+  main{ max-width:760px; margin:0 auto; padding:16px 48px 90px; }
+
+  .article-meta{ display:flex; align-items:center; gap:10px; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--terracotta-deep); margin-bottom:16px; }
+  .article-meta .dot{ color:var(--line); font-weight:400; }
+  .article-meta .read-time{ color:var(--ink-soft); font-weight:600; }
+  .article-header h1{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(28px,4vw,42px); line-height:1.15; color:var(--green); margin-bottom:14px; }
+  .article-header .excerpt{ font-family:'Fraunces',serif; font-style:italic; font-size:17px; color:var(--ink-soft); margin-bottom:36px; line-height:1.5; }
+
+  .article-body{ background:var(--card); box-shadow:var(--shadow); border-radius:20px; padding:40px 44px; }
+  .article-body h3{ font-family:'Fraunces',serif; font-weight:700; font-size:19px; color:var(--green); margin:26px 0 10px; }
+  .article-body h3:first-child{ margin-top:0; }
+  .article-body p{ margin-bottom:14px; color:var(--ink); }
+  .article-body ul{ margin:0 0 14px 20px; }
+  .article-body li{ margin-bottom:8px; }
+  .article-body b{ color:var(--green); }
+
+  .article-cta{ margin-top:34px; background:var(--card); box-shadow:var(--shadow); border-radius:18px; padding:26px 30px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+  .article-cta .t{ font-family:'Fraunces',serif; font-weight:700; font-size:17px; color:var(--green); }
+  .article-cta a{ background:var(--terracotta); color:#fff; text-decoration:none; font-weight:700; font-size:13px; letter-spacing:.04em; text-transform:uppercase; padding:12px 24px; border-radius:22px; white-space:nowrap; }
+  .article-cta a:hover{ background:var(--terracotta-deep); }
+
+  .more-title{ font-family:'Fraunces',serif; font-weight:700; font-size:18px; color:var(--green); margin:48px 0 16px; }
+  .more-grid{ display:flex; flex-direction:column; gap:12px; }
+  .more-card{ background:var(--card); box-shadow:var(--shadow); border-radius:14px; padding:18px 20px; text-decoration:none; color:var(--ink); display:block; }
+  .more-card:hover{ box-shadow:var(--shadow-hover); }
+  .more-card .cat{ font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--terracotta-deep); margin-bottom:4px; }
+  .more-card .t2{ font-family:'Fraunces',serif; font-weight:700; font-size:16px; color:var(--green); }
+
+  .not-found{ text-align:center; padding:100px 40px; }
+  .not-found h1{ font-family:'Fraunces',serif; font-size:30px; margin-bottom:14px; color:var(--green); }
+  .not-found a{ color:var(--terracotta-deep); font-weight:600; }
+
+  footer{ padding:26px 48px 50px; font-size:12.5px; color:var(--ink-soft); text-align:center; border-top:1px solid var(--line); }
+
+  @media (max-width:900px){
+    header{ padding:16px 20px; position:relative; }
+    .nav-toggle{ display:block; }
+    nav{ display:none; position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; background:var(--bg); border-bottom:1px solid var(--line); padding:6px 20px 18px; box-shadow:var(--shadow-hover); }
+    nav.open{ display:flex; }
+    nav a{ padding:13px 2px; border-bottom:1px solid var(--line); }
+    nav a:last-child{ border-bottom:none; }
+    .nav-cta{ margin-top:10px; text-align:center; }
+    .breadcrumb, main, footer{ padding-left:20px; padding-right:20px; }
+    .article-body{ padding:28px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark-wrap" href="index.html"><span class="wordmark">SURANS</span></a>
+  <button class="nav-toggle" id="navToggle" onclick="toggleMobileNav()" aria-label="Deschide meniul">☰</button>
+  <nav id="mainNav">
+    <a href="index.html#catalogSection">Descoperă</a>
+    <a href="index.html#filterBlock">Notă</a>
+    <a href="index.html#filterBlock">Dupe Finder</a>
+    <a href="index.html#comparatorBlock">Comparator</a>
+    <a href="articole.html">Articole</a>
+    <a href="despre.html">Despre noi</a>
+    <a class="nav-cta" href="index.html#searchInput">Găsește-mi parfumul</a>
+  </nav>
+</header>
+
+<div class="breadcrumb" id="breadcrumb"></div>
+
+<main id="main"></main>
+
+<footer>SURANS · fiecare specimen e datat și sursat individual · afilierea nu influențează ordinea</footer>
+
+<script>
+function toggleMobileNav(){
+  document.getElementById('mainNav').classList.toggle('open');
+}
+document.getElementById('mainNav').addEventListener('click', (e)=>{
+  if(e.target.tagName==='A') document.getElementById('mainNav').classList.remove('open');
+});
+
+const params = new URLSearchParams(window.location.search);
+const slug = params.get('slug');
+const a = ARTICLES.find(x => x.slug === slug);
+const main = document.getElementById('main');
+const crumb = document.getElementById('breadcrumb');
+
+if(!a){
+  crumb.innerHTML = '';
+  main.innerHTML = `
+    <div class="not-found">
+      <h1>Nu am găsit acest articol</h1>
+      <p>Poate a fost mutat sau linkul e greșit. <a href="articole.html">Înapoi la articole →</a></p>
+    </div>`;
+} else {
+  document.title = `${a.title} — Surans`;
+  crumb.innerHTML = `<a href="articole.html">Articole</a> / ${a.title}`;
+
+  const more = ARTICLES.filter(x => x.slug !== a.slug).slice(0, 2);
+
+  main.innerHTML = `
+    <div class="article-header">
+      <div class="article-meta">
+        <span>${a.category}</span>
+        <span class="dot">·</span>
+        <span class="read-time">${a.readMinutes} min citire</span>
+        <span class="dot">·</span>
+        <span>${a.publishedLabel}</span>
+      </div>
+      <h1>${a.title}</h1>
+      <div class="excerpt">${a.excerpt}</div>
+    </div>
+    <div class="article-body">${a.body}</div>
+    <div class="article-cta">
+      <div class="t">Vrei să vezi piramida de note direct pe un parfum?</div>
+      <a href="index.html#catalogSection">Explorează catalogul →</a>
+    </div>
+    ${more.length ? `
+      <div class="more-title">Citește și</div>
+      <div class="more-grid">
+        ${more.map(x => `
+          <a class="more-card" href="articol.html?slug=${x.slug}">
+            <div class="cat">${x.category}</div>
+            <div class="t2">${x.title}</div>
+          </a>`).join('')}
+      </div>
+    ` : ''}
+  `;
+}
+</script>
+</body>
+</html>

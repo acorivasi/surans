@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surans — Articole & Ghiduri despre parfumerie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="articles.js"></script>
+<style>
+  :root{
+    --bg:#F7F7F5;
+    --green:#37351B;
+    --terracotta:#565436;
+    --terracotta-deep:#1C1813;
+    --ink:#1C1813;
+    --ink-soft:#9599A0;
+    --card:#FFFFFF;
+    --line:#E8E7E3;
+    --shadow: 0 4px 14px rgba(28,24,19,0.05);
+    --shadow-hover: 0 10px 26px rgba(28,24,19,0.10);
+    --teal:#76A6A3;
+    --gold:#F0BB6E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; font-size:15.5px; line-height:1.6; }
+  .serif{ font-family:'Fraunces',serif; }
+  a{ color:inherit; }
+
+  header{ padding:22px 48px; display:flex; justify-content:space-between; align-items:center; background:var(--bg); position:sticky; top:0; z-index:30; border-bottom:1px solid var(--line); }
+  .wordmark-wrap{ text-decoration:none; }
+  .wordmark{ font-family:'Inter',sans-serif; font-weight:900; font-size:20px; letter-spacing:.1em; color:var(--ink); display:block; text-transform:uppercase; }
+  nav{ display:flex; gap:26px; font-size:11.5px; font-weight:600; align-items:center; text-transform:uppercase; letter-spacing:.08em; }
+  nav a{ color:var(--ink); text-decoration:none; }
+  nav a:hover{ color:var(--terracotta-deep); }
+  .nav-cta{ background:var(--terracotta); color:#fff !important; padding:10px 20px; border-radius:2px; font-weight:700; font-size:11px; letter-spacing:.06em; }
+  .nav-cta:hover{ background:var(--terracotta-deep); }
+  .nav-toggle{ display:none; background:none; border:none; font-size:22px; line-height:1; color:var(--ink); cursor:pointer; padding:6px 4px; }
+
+  .page-banner{ position:relative; min-height:200px; display:flex; align-items:center; overflow:hidden; }
+  .page-banner-photo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:22% 40%; z-index:0; }
+  .page-banner-scrim{ position:absolute; inset:0; z-index:0; background:linear-gradient(90deg, var(--bg) 0%, rgba(247,247,245,0.85) 38%, rgba(247,247,245,0.35) 62%, rgba(247,247,245,0) 85%); }
+  .page-banner-inner{ position:relative; z-index:1; max-width:1280px; margin:0 auto; padding:0 48px; width:100%; }
+  .page-banner .eyebrow{ font-size:11.5px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--terracotta-deep); margin-bottom:12px; }
+  .page-banner h1{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(28px,3.6vw,42px); color:var(--green); margin-bottom:10px; }
+  .page-banner p{ font-size:15px; color:var(--ink-soft); max-width:460px; }
+
+  main{ max-width:1280px; margin:0 auto; padding:40px 48px 90px; }
+  .articles-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:28px; }
+  .article-card{ background:var(--card); box-shadow:var(--shadow); border-radius:18px; padding:30px 28px; text-decoration:none; color:var(--ink); display:flex; flex-direction:column; gap:12px; transition:transform .15s ease, box-shadow .15s ease; }
+  .article-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-hover); }
+  .article-meta{ display:flex; align-items:center; gap:10px; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--terracotta-deep); }
+  .article-meta .dot{ color:var(--line); font-weight:400; }
+  .article-meta .read-time{ color:var(--ink-soft); font-weight:600; }
+  .article-card h2{ font-family:'Fraunces',serif; font-weight:700; font-size:22px; line-height:1.25; color:var(--green); }
+  .article-card p{ font-size:14px; color:var(--ink-soft); line-height:1.55; }
+  .article-card .read-more{ margin-top:auto; font-size:13px; font-weight:700; color:var(--terracotta-deep); padding-top:8px; }
+
+  footer{ padding:26px 48px 50px; font-size:12.5px; color:var(--ink-soft); text-align:center; border-top:1px solid var(--line); }
+
+  @media (max-width:900px){
+    header{ padding:16px 20px; position:relative; }
+    .nav-toggle{ display:block; }
+    nav{ display:none; position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; background:var(--bg); border-bottom:1px solid var(--line); padding:6px 20px 18px; box-shadow:var(--shadow-hover); }
+    nav.open{ display:flex; }
+    nav a{ padding:13px 2px; border-bottom:1px solid var(--line); }
+    nav a:last-child{ border-bottom:none; }
+    .nav-cta{ margin-top:10px; text-align:center; }
+    .page-banner-inner, main, footer{ padding-left:20px; padding-right:20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark-wrap" href="index.html"><span class="wordmark">SURANS</span></a>
+  <button class="nav-toggle" id="navToggle" onclick="toggleMobileNav()" aria-label="Deschide meniul">☰</button>
+  <nav id="mainNav">
+    <a href="index.html#catalogSection">Descoperă</a>
+    <a href="index.html#filterBlock">Notă</a>
+    <a href="index.html#filterBlock">Dupe Finder</a>
+    <a href="index.html#comparatorBlock">Comparator</a>
+    <a href="articole.html" class="active">Articole</a>
+    <a href="despre.html">Despre noi</a>
+    <a class="nav-cta" href="index.html#searchInput">Găsește-mi parfumul</a>
+  </nav>
+</header>
+
+<div class="page-banner">
+  <img class="page-banner-photo" src="hero-perfume-2.jpg" alt="">
+  <div class="page-banner-scrim"></div>
+  <div class="page-banner-inner">
+    <div class="eyebrow">Ghiduri · Explicat · Parfumerie</div>
+    <h1>Articole & Ghiduri</h1>
+    <p>Tot ce merită să știi despre longevitate, note și structura unui parfum — ca să alegi mai bine data viitoare.</p>
+  </div>
+</div>
+
+<main>
+  <div class="articles-grid" id="articlesGrid"></div>
+</main>
+
+<footer>SURANS · fiecare specimen e datat și sursat individual · afilierea nu influențează ordinea</footer>
+
+<script>
+function toggleMobileNav(){
+  document.getElementById('mainNav').classList.toggle('open');
+}
+document.getElementById('mainNav').addEventListener('click', (e)=>{
+  if(e.target.tagName==='A') document.getElementById('mainNav').classList.remove('open');
+});
+
+document.getElementById('articlesGrid').innerHTML = ARTICLES.map(a => `
+  <a class="article-card" href="articol.html?slug=${a.slug}">
+    <div class="article-meta">
+      <span>${a.category}</span>
+      <span class="dot">·</span>
+      <span class="read-time">${a.readMinutes} min citire</span>
+    </div>
+    <h2>${a.title}</h2>
+    <p>${a.excerpt}</p>
+    <div class="read-more">Citește articolul →</div>
+  </a>
+`).join('');
+</script>
+</body>
+</html>
