@@ -175,6 +175,7 @@
   .cmp-store{ font-weight:600; font-size:13.5px; }
   .cmp-best-tag{ font-size:10px; font-weight:700; color:var(--terracotta-deep); text-transform:uppercase; letter-spacing:.04em; margin-left:8px; }
   .cmp-price-wrap{ display:flex; align-items:center; gap:12px; }
+  .cmp-ppm{ font-size:10.5px; color:var(--ink-soft); }
   .cmp-val{ font-family:'Fraunces',serif; font-size:16px; font-weight:700; color:var(--green); }
   .cmp-buy{ background:var(--terracotta); color:#fff; text-decoration:none; font-size:11.5px; font-weight:700; padding:7px 14px; border-radius:16px; white-space:nowrap; }
   .cmp-buy:hover{ background:var(--terracotta-deep); }
@@ -245,6 +246,7 @@
 
   .price-row{ display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); padding-top:12px; margin-top:auto; gap:10px; }
   .price .val{ font-family:'Fraunces',serif; font-size:19px; font-weight:700; color:var(--green); }
+  .price .ppm{ font-size:10.5px; color:var(--ink-soft); }
   .price .src{ font-size:11px; color:var(--ink-soft); }
   .price .pending{ font-size:11.5px; color:var(--ink-soft); font-style:italic; }
   .compare-hint{ font-size:10px; color:var(--terracotta-deep); font-weight:600; margin-top:3px; }
@@ -735,11 +737,15 @@ function compareOffersHTML(p){
   const parsePrice = s => parseFloat(String(s).replace(/[^\d.,]/g,'').replace(',','.'));
   allOffers.sort((a,b)=>parsePrice(a.price)-parsePrice(b.price));
   const minPrice = parsePrice(allOffers[0].price);
-  return `<div class="cmp-table">` + allOffers.map(o=>`
+  const volumeMl = getVolumeMl(p);
+  return `<div class="cmp-table">` + allOffers.map(o=>{
+    const ppm = pricePerMl(o.price, volumeMl);
+    return `
     <div class="cmp-row ${parsePrice(o.price)===minPrice?'best':''}">
       <div><span class="cmp-store">${o.store}</span>${parsePrice(o.price)===minPrice?'<span class="cmp-best-tag">Cel mai bun preț</span>':''}</div>
-      <div class="cmp-price-wrap"><span class="cmp-val">${o.price}</span><a class="cmp-buy" href="${o.buyLink}" target="_blank" rel="nofollow sponsored noopener">Cumpără →</a></div>
-    </div>`).join('') + `</div>`;
+      <div class="cmp-price-wrap">${ppm?`<span class="cmp-ppm">${ppm} lei/ml</span>`:''}<span class="cmp-val">${o.price}</span><a class="cmp-buy" href="${o.buyLink}" target="_blank" rel="nofollow sponsored noopener">Cumpără →</a></div>
+    </div>`;
+  }).join('') + `</div>`;
 }
 
 function compareResultCard(p){
@@ -781,8 +787,10 @@ function cardHTML(p, i){
   const relTags = p.relations.map(r=>`<button class="rel-tag" onclick="event.stopPropagation(); window.location.href='produs.html?id=${r.target}';">${r.label}</button>`).join('');
   const dupeTag = p.dupeOf ? `<span class="accord-tag" style="border-color:var(--coral);">Dupe: ${p.dupeOf}</span>` : '';
   const compareBadge = (p.offers && p.offers.length>0) ? `<div class="compare-hint">⚖ ${p.offers.length+1} magazine</div>` : '';
+  const ppm = p.price.val ? pricePerMl(p.price.val, getVolumeMl(p)) : null;
+  const ppmLine = ppm ? `<div class="ppm">${ppm} lei/ml</div>` : '';
   const priceBlock = p.price.val
-    ? `<div class="val">${p.price.val}</div><div class="src">${p.price.src}</div>${compareBadge}`
+    ? `<div class="val">${p.price.val}</div>${ppmLine}<div class="src">${p.price.src}</div>${compareBadge}`
     : `<div class="pending">${p.price.src}</div>`;
   const buyButton = p.price.buyLink
     ? `<a class="buy-btn" href="${p.price.buyLink}" target="_blank" rel="nofollow sponsored noopener" onclick="event.stopPropagation();">Cumpără →</a>`
