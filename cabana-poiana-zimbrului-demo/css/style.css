@@ -223,7 +223,12 @@ a { color: var(--color-primary-dark); text-decoration: none; }
 .hero__text p.lead,
 .hero__stat b,
 .hero__stat span {
-  text-shadow: 0 2px 3px rgba(38, 22, 6, 0.9), 0 4px 10px rgba(38, 22, 6, 0.75), 0 1px 18px rgba(38, 22, 6, 0.55);
+  text-shadow:
+    -1.5px -1.5px 0 rgba(33, 19, 5, 0.9),
+    1.5px -1.5px 0 rgba(33, 19, 5, 0.9),
+    -1.5px 1.5px 0 rgba(33, 19, 5, 0.9),
+    1.5px 1.5px 0 rgba(33, 19, 5, 0.9),
+    0 4px 12px rgba(33, 19, 5, 0.65);
 }
 .hero__text .eyebrow { color: #fdf9ef; }
 .hero__text h1 { color: #fff; }
