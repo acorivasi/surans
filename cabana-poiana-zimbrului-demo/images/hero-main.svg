@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1610" height="977" viewBox="0 0 1610 977">
+  <defs>
+    <linearGradient id="g_hero_sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bfe0f0"/>
+      <stop offset="55%" stop-color="#dcedd0"/>
+      <stop offset="100%" stop-color="#eef4de"/>
+    </linearGradient>
+    <linearGradient id="g_hero_mtn_far" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9cbf9a"/>
+      <stop offset="100%" stop-color="#7fa87a"/>
+    </linearGradient>
+    <linearGradient id="g_hero_mtn_near" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6f9c3d"/>
+      <stop offset="100%" stop-color="#4a6b28"/>
+    </linearGradient>
+  </defs>
+  <rect width="1610" height="977" fill="url(#g_hero_sky)"/>
+  <path d="M0,460 L180,300 L360,440 L560,260 L760,420 L980,240 L1220,410 L1450,270 L1610,400 L1610,977 L0,977 Z" fill="url(#g_hero_mtn_far)" opacity="0.75"/>
+  <path d="M0,620 L220,480 L420,600 L660,430 L900,610 L1160,440 L1400,600 L1610,500 L1610,977 L0,977 Z" fill="url(#g_hero_mtn_near)"/>
+  <g fill="#3d5a20" opacity="0.9">
+    <path d="M120,720 L155,640 L190,720 Z"/>
+    <path d="M150,760 L185,670 L220,760 Z"/>
+    <path d="M980,750 L1020,655 L1060,750 Z"/>
+    <path d="M1030,790 L1070,690 L1110,790 Z"/>
+    <path d="M1300,700 L1335,615 L1370,700 Z"/>
+    <path d="M1340,745 L1375,650 L1410,745 Z"/>
+  </g>
+  <rect x="0" y="740" width="1610" height="237" fill="#eef4de"/>
+</svg>
