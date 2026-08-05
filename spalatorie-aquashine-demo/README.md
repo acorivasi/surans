@@ -17,7 +17,8 @@ spalatorie-aquashine-demo/
 ## Ce e deja făcut (conform Pachetului START)
 
 - **1 pagină de prezentare** — navigare cu ancore (Acasă/Servicii/Galerie/Despre/Contact), fără reîncărcări de pagină.
-- **Design modern, adaptat domeniului** — paletă albastru/cyan („apă & strălucire"), tipografie Poppins + Inter.
+- **Design modern, adaptat domeniului** — hero + secțiunea „Cum lucrăm" pe fundal întunecat, dramatic (albastru electric #0a66ff / cyan #00c2ff pe negru-albastru #070b12), restul paginii pe fundal deschis pentru lizibilitate — contrast puternic, în stil detailing auto premium. Tipografie Poppins + Inter.
+- **Proces în 4 pași** — secțiune „Cum lucrăm" (Spălare → Săpunire → Clătire → Lucioasă), recreată ca HTML/CSS real (nu imagine) pentru a rămâne editabilă, responsive și SEO-friendly.
 - **Prezentarea firmei și a serviciilor** — 6 servicii cu prețuri de pornire (spălare exterior/interior, pachet complet, motor, polish faruri, ceruire).
 - **Galerie foto** — grilă cu lightbox (fără librării externe).
 - **Date de contact** — adresă, telefon, email, program.
@@ -32,7 +33,7 @@ spalatorie-aquashine-demo/
 ## Ce trebuie completat înainte de lansare
 
 ### 1. Conținut real
-Înlocuiește în `images/` fișierele SVG cu poze reale ale spălătoriei (JPG/WebP, comprimate la ~150–300KB pentru poze mari). Actualizează numele firmei, adresa, telefonul (`+40731456789` apare în `tel:`/`wa.me` links) și textele din secțiunea „Despre”.
+Înlocuiește în `images/` fișierele SVG cu poze reale ale spălătoriei (JPG/WebP, comprimate la ~150–300KB pentru poze mari). Cel mai important: `images/hero-main.svg` (fundalul din hero) — o poză cinematică cu mașina în timpul spălării (spumă/apă, iluminare dramatică) va da cel mai mare impact vizual, exact pe direcția paletei întunecate/albastre deja aplicate. Actualizează numele firmei, adresa, telefonul (`+40731456789` apare în `tel:`/`wa.me` links) și textele din secțiunea „Despre”.
 
 ### 2. Configurare domeniu + hosting
 - Cumpără domeniul (ex. de la un registrar RO — rotld.ro, sau GoDaddy/Namecheap).
