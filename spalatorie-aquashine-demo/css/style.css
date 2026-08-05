@@ -244,10 +244,10 @@ a { color: var(--color-primary-dark); text-decoration: none; }
 .hero .container { max-width: 1320px; position: relative; z-index: 2; }
 .hero__grid { display: block; }
 .hero__text { max-width: 620px; }
-.hero .eyebrow { color: var(--color-secondary); }
-.hero h1 { color: var(--color-dark-text); }
+.hero .eyebrow { color: var(--color-secondary); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
+.hero h1 { color: var(--color-dark-text); text-shadow: 0 2px 16px rgba(0, 0, 0, 0.65); }
 .hero h1 span { color: var(--color-secondary); }
-.hero__text p.lead { font-size: 1.1rem; color: var(--color-dark-text-muted); }
+.hero__text p.lead { font-size: 1.1rem; color: var(--color-dark-text-muted); text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
 .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 26px; }
 .hero__stats { display: flex; gap: 32px; margin-top: 40px; }
 .hero__stat b { display: block; font-family: var(--font-heading); font-size: 1.6rem; color: var(--color-dark-text); }
@@ -523,11 +523,12 @@ a { color: var(--color-primary-dark); text-decoration: none; }
   .hero::before {
     background: linear-gradient(180deg,
       rgba(7, 11, 18, 0.97) 0%,
-      rgba(7, 11, 18, 0.92) 22%,
-      rgba(7, 11, 18, 0.5) 38%,
-      rgba(13, 24, 38, 0.1) 55%);
+      rgba(7, 11, 18, 0.94) 34%,
+      rgba(7, 11, 18, 0.8) 55%,
+      rgba(7, 11, 18, 0.4) 72%,
+      rgba(13, 24, 38, 0.1) 90%);
   }
-  .hero__bg { object-position: 78% 45%; }
+  .hero__bg { object-position: 82% 45%; }
   .section { padding: 52px 0; }
   .process-steps { grid-template-columns: 1fr; gap: 32px; }
   .process-steps::before { display: none; }

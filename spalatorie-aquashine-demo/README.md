@@ -9,7 +9,7 @@ spalatorie-aquashine-demo/
 ├── index.html          1 pagină cu toate secțiunile (Acasă, Servicii, Galerie, Despre, Testimoniale, Contact)
 ├── css/style.css
 ├── js/main.js
-├── images/             placeholder-uri SVG (de înlocuit cu poze reale)
+├── images/             hero-photo.jpg + og-image.jpg (poze reale) și placeholder-uri SVG pentru galerie/avatare
 ├── robots.txt
 └── sitemap.xml
 ```
@@ -33,7 +33,7 @@ spalatorie-aquashine-demo/
 ## Ce trebuie completat înainte de lansare
 
 ### 1. Conținut real
-Înlocuiește în `images/` fișierele SVG cu poze reale ale spălătoriei (JPG/WebP, comprimate la ~150–300KB pentru poze mari). Cel mai important: `images/hero-main.svg` (fundalul din hero) — o poză cinematică cu mașina în timpul spălării (spumă/apă, iluminare dramatică) va da cel mai mare impact vizual, exact pe direcția paletei întunecate/albastre deja aplicate. Actualizează numele firmei, adresa, telefonul (`+40731456789` apare în `tel:`/`wa.me` links) și textele din secțiunea „Despre”.
+`images/hero-photo.jpg` (fundalul din hero) și `images/og-image.jpg` (preview-ul pentru Facebook/WhatsApp) sunt deja poze reale. Rămân de înlocuit doar fișierele SVG din galerie (`gallery-1..6.svg`) și avatarele testimonialelor cu poze reale ale spălătoriei (JPG/WebP, comprimate la ~150–300KB pentru poze mari). Actualizează numele firmei, adresa, telefonul (`+40731456789` apare în `tel:`/`wa.me` links) și textele din secțiunea „Despre”.
 
 ### 2. Configurare domeniu + hosting
 - Cumpără domeniul (ex. de la un registrar RO — rotld.ro, sau GoDaddy/Namecheap).
