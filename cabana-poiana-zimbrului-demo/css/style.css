@@ -215,26 +215,23 @@ a { color: var(--color-primary-dark); text-decoration: none; }
   object-position: 65% 55%;
   z-index: 0;
 }
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg,
-    rgba(250, 247, 240, 0.96) 0%,
-    rgba(250, 247, 240, 0.9) 32%,
-    rgba(250, 247, 240, 0.62) 48%,
-    rgba(238, 241, 226, 0.22) 66%,
-    rgba(238, 241, 226, 0.05) 80%);
-  z-index: 1;
-}
 .hero .container { max-width: 1320px; position: relative; z-index: 2; }
 .hero__grid { display: block; }
 .hero__text { max-width: 620px; }
-.hero__text p.lead { font-size: 1.1rem; }
+.hero__text .eyebrow,
+.hero__text h1,
+.hero__text p.lead,
+.hero__stat b,
+.hero__stat span {
+  text-shadow: 0 2px 4px rgba(59, 38, 14, 0.55), 0 1px 14px rgba(59, 38, 14, 0.5);
+}
+.hero__text .eyebrow { color: #fdf9ef; }
+.hero__text h1 { color: #fff; }
+.hero__text p.lead { font-size: 1.1rem; color: #fdf9ef; }
 .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 26px; }
 .hero__stats { display: flex; gap: 32px; margin-top: 40px; flex-wrap: wrap; }
-.hero__stat b { display: block; font-family: var(--font-heading); font-size: 1.7rem; color: var(--color-primary-dark); }
-.hero__stat span { font-size: 0.85rem; color: var(--color-text-light); }
+.hero__stat b { display: block; font-family: var(--font-heading); font-size: 1.7rem; color: #fff; }
+.hero__stat span { font-size: 0.85rem; color: #fdf9ef; }
 
 /* ---------- Cards / Grids ---------- */
 .grid { display: grid; gap: 28px; }
@@ -502,22 +499,8 @@ a { color: var(--color-primary-dark); text-decoration: none; }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr; gap: 30px; }
   .form-row { grid-template-columns: 1fr; }
-  .hero__stats {
-    flex-wrap: wrap; gap: 16px 20px;
-    background: rgba(250, 247, 240, 0.88);
-    backdrop-filter: blur(3px);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    width: fit-content;
-  }
+  .hero__stats { flex-wrap: wrap; gap: 16px 20px; }
   .hero { min-height: 580px; padding: 40px 0; }
-  .hero::before {
-    background: linear-gradient(180deg,
-      rgba(250, 247, 240, 0.97) 0%,
-      rgba(250, 247, 240, 0.92) 22%,
-      rgba(250, 247, 240, 0.4) 38%,
-      rgba(238, 241, 226, 0.08) 52%);
-  }
   .hero__bg { object-position: 70% 55%; }
   .section { padding: 52px 0; }
   .float-actions { right: 10px; bottom: 14px; gap: 8px; }
