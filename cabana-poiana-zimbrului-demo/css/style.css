@@ -217,13 +217,13 @@ a { color: var(--color-primary-dark); text-decoration: none; }
 }
 .hero .container { max-width: 1320px; position: relative; z-index: 2; }
 .hero__grid { display: block; }
-.hero__text { position: relative; max-width: 620px; padding: 36px 40px; }
+.hero__text { position: relative; max-width: 620px; padding: 90px 40px 36px; }
 .hero__text::before {
   content: "";
   position: absolute;
-  inset: 0;
+  top: -150px; left: 0; right: 0; bottom: 0;
   background: rgba(43, 30, 10, 0.58);
-  border-radius: 6px;
+  clip-path: polygon(50% 0%, 100% 150px, 100% 100%, 0% 100%, 0% 150px);
   z-index: -1;
 }
 .hero__text .eyebrow { color: #f3dcae; }
