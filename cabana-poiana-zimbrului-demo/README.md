@@ -36,7 +36,7 @@ cabana-poiana-zimbrului-demo/
 ## Ce trebuie completat înainte de lansare
 
 ### 1. Conținut real
-Înlocuiește în `images/` fișierele SVG (inclusiv `hero-main.svg` și `og-image.svg`) cu poze reale ale cabanei/pensiunii (JPG/WebP, comprimate la ~150–300KB pentru poze mari). Actualizează numele pensiunii, adresa, telefonul (`+40766112233` apare în `tel:`/`wa.me` links din toate paginile) și textele din `despre.html`.
+`images/hero-main.jpg` este deja o poză reală (folosită și ca fundal hero, și ca og:image). Rămân de înlocuit fișierele SVG din galerie (`gallery-*.svg`), `despre-poveste.svg` și portretele gazdelor (`gazda-1.svg`, `gazda-2.svg`) cu poze reale ale cabanei/pensiunii (JPG/WebP, comprimate la ~150–300KB pentru poze mari). Actualizează numele pensiunii, adresa, telefonul (`+40766112233` apare în `tel:`/`wa.me` links din toate paginile) și textele din `despre.html`.
 
 ### 2. Configurare domeniu + hosting
 - Cumpără domeniul (ex. de la un registrar RO — rotld.ro, sau GoDaddy/Namecheap).
