@@ -7,13 +7,14 @@
 (function () {
   const STYLE = `
     #suransChatBubble{
-      position:fixed; bottom:22px; right:22px; z-index:999;
-      width:58px; height:58px; border-radius:50%;
-      background:#565436; color:#fff; border:none; cursor:pointer;
-      box-shadow:0 10px 26px rgba(28,24,19,0.22);
-      display:flex; align-items:center; justify-content:center; font-size:24px;
+      position:fixed; bottom:24px; right:24px; z-index:999;
+      width:72px; height:72px; border-radius:50%;
+      background:#FFD100; color:#1C1813; border:none; cursor:pointer;
+      box-shadow:0 10px 30px rgba(255,209,0,0.55), 0 4px 12px rgba(28,24,19,0.25);
+      display:flex; align-items:center; justify-content:center; font-size:32px;
+      transition:transform .15s ease, box-shadow .15s ease;
     }
-    #suransChatBubble:hover{ background:#1C1813; }
+    #suransChatBubble:hover{ background:#FFC300; transform:translateY(-2px) scale(1.05); box-shadow:0 14px 34px rgba(255,209,0,0.65), 0 6px 14px rgba(28,24,19,0.3); }
     #suransChatPanel{
       position:fixed; bottom:92px; right:22px; z-index:999;
       width:340px; max-width:calc(100vw - 32px); height:460px; max-height:70vh;
