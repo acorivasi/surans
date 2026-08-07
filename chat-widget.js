@@ -5,6 +5,10 @@
 // render, NOTE_LIST, currentPage.
 
 (function () {
+  // Absolute URL — the widget can be embedded on a different origin
+  // (surans.ro) than the one hosting this backend (Render).
+  const CHAT_API_URL = "https://surans.onrender.com/api/chat";
+
   const STYLE = `
     #suransChatBubble{
       position:fixed; bottom:24px; right:24px; z-index:999;
@@ -150,7 +154,7 @@
     const typingEl = addMessage("Caut...", "bot typing");
 
     try {
-      const resp = await fetch("/api/chat", {
+      const resp = await fetch(CHAT_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: history }),

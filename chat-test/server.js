@@ -116,7 +116,32 @@ async function handleChat(req, res) {
   });
 }
 
+// The chat widget is embedded on surans.ro (served separately, e.g. GitHub
+// Pages) but calls this server's /api/chat cross-origin — the browser
+// requires these CORS headers on the response, plus an OPTIONS preflight.
+const ALLOWED_ORIGINS = new Set([
+  "https://surans.ro",
+  "https://www.surans.ro",
+  "http://localhost:3000",
+]);
+
+function withCors(req, res) {
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  }
+}
+
 const server = http.createServer((req, res) => {
+  withCors(req, res);
+
+  if (req.method === "OPTIONS") {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
   if (req.method === "POST" && req.url === "/api/chat") {
     handleChat(req, res);
     return;
