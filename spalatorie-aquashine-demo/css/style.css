@@ -253,6 +253,20 @@ a { color: var(--color-primary-dark); text-decoration: none; }
 .hero__stat b { display: block; font-family: var(--font-heading); font-size: 1.6rem; color: var(--color-dark-text); }
 .hero__stat span { font-size: 0.85rem; color: var(--color-dark-text-muted); }
 
+.hero__3d {
+  position: absolute;
+  top: 12%;
+  right: 7%;
+  width: 300px;
+  height: 210px;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 20px 30px rgba(0, 30, 60, 0.45));
+}
+@media (max-width: 980px) {
+  .hero__3d { display: none; }
+}
+
 /* ---------- Cum lucrăm (proces în 4 pași) ---------- */
 .process {
   background: linear-gradient(180deg, var(--color-dark-bg) 0%, var(--color-dark-bg-2) 100%);
@@ -297,6 +311,53 @@ a { color: var(--color-primary-dark); text-decoration: none; }
 .process-step:nth-child(2) .process-step__icon,
 .process-step:nth-child(3) .process-step__icon,
 .process-step:nth-child(4) .process-step__icon { background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); }
+
+.process-step__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  margin: 0 0 18px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--color-dark-border);
+  background: var(--color-dark-bg-2);
+  cursor: pointer;
+}
+.process-step__poster,
+.process-step__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.process-step__poster {
+  transition: opacity 0.35s ease;
+}
+.process-step__video {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.process-step__media.is-playing .process-step__poster { opacity: 0; }
+.process-step__media.is-playing .process-step__video { opacity: 1; }
+.process-step__hint {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(7, 11, 18, 0.6);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+  backdrop-filter: blur(2px);
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.process-step__media.is-playing .process-step__hint { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .process-step__poster, .process-step__video, .process-step__hint { transition: none; }
+}
 .process-step__num { color: var(--color-secondary); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; display: block; margin-bottom: 6px; }
 .process-step h3 { color: var(--color-dark-text); font-size: 1.05rem; margin-bottom: 6px; }
 .process-step p { color: var(--color-dark-text-muted); font-size: 0.88rem; margin: 0; }

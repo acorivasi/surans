@@ -215,6 +215,90 @@ a { color: var(--color-primary-dark); text-decoration: none; }
   object-position: 65% 55%;
   z-index: 0;
 }
+
+/* ---------- Hero: comparație vară / iarnă ---------- */
+.hero__compare {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  cursor: ew-resize;
+}
+.hero__compare-base {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 48%;
+}
+.hero__compare-reveal {
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+.hero__compare-reveal-img {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 48%;
+  max-width: none;
+}
+.hero__compare-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.85);
+  transform: translateX(-1px);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  z-index: 1;
+}
+.hero__compare-line::after {
+  content: "⟷";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.hero__compare-tags {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 22px;
+  z-index: 1;
+  pointer-events: none;
+}
+.hero__compare-tag {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(30, 22, 10, 0.4);
+  padding: 6px 14px;
+  border-radius: 999px;
+  backdrop-filter: blur(3px);
+}
 .hero .container { max-width: 1320px; position: relative; z-index: 2; }
 .hero__grid { display: block; }
 .hero__text { position: relative; max-width: 620px; padding: 90px 40px 36px; }

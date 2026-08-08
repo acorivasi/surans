@@ -107,7 +107,17 @@
 </header>
 
 <section class="hero">
-  <img class="hero__bg" src="images/hero-main.jpg" alt="Poiană verde cu fotoliu de relaxare și cabana din lemn în fundal, cu vedere spre munte, Moeciu de Sus" loading="eager" width="1344" height="768">
+  <div class="hero__compare" id="heroCompare">
+    <img class="hero__compare-base" src="images/cabana-iarna.jpg" alt="Cabana Poiana Zimbrului iarna, acoperită de zăpadă, cu brazi în jur" loading="eager" width="1717" height="459">
+    <div class="hero__compare-reveal" id="heroCompareReveal">
+      <img class="hero__compare-reveal-img" id="heroCompareImg" src="images/cabana-vara.jpg" alt="Cabana Poiana Zimbrului vara, poiană verde însorită" loading="eager" width="1717" height="457">
+    </div>
+    <div class="hero__compare-line" id="heroCompareLine"></div>
+    <div class="hero__compare-tags" aria-hidden="true">
+      <span class="hero__compare-tag hero__compare-tag--summer">Vară</span>
+      <span class="hero__compare-tag hero__compare-tag--winter">Iarnă</span>
+    </div>
+  </div>
   <div class="container hero__grid">
     <div class="hero__text">
       <span class="eyebrow">Pensiune de munte · Moeciu de Sus, Brașov</span>
@@ -302,5 +312,6 @@
 </div>
 
 <script src="js/main.js"></script>
+<script src="js/hero-compare.js"></script>
 </body>
 </html>

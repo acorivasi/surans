@@ -102,6 +102,7 @@
 
 <section class="hero" id="acasa">
   <img class="hero__bg" src="images/hero-photo.jpg" alt="Mașină BMW în timpul spălării la AquaShine Car Wash, de la caroserie murdară la luciu impecabil" loading="eager" width="1693" height="929">
+  <canvas id="hero3d" class="hero__3d" aria-hidden="true"></canvas>
   <div class="container hero__grid">
     <div class="hero__text">
       <span class="eyebrow">Spălătorie auto premium · Timișoara</span>
@@ -128,26 +129,42 @@
       <p>Un proces clar, repetat identic la fiecare mașină — ca rezultatul să fie mereu același: impecabil.</p>
     </div>
     <div class="process-steps">
-      <div class="process-step">
-        <div class="process-step__icon">🚿</div>
+      <div class="process-step" data-video="images/cadru-murdar">
+        <div class="process-step__media">
+          <img class="process-step__poster" src="images/poster-murdar.jpg" alt="Mașină murdară, particule de noroi" loading="lazy" width="460" height="1280">
+          <video class="process-step__video" muted loop playsinline preload="none"></video>
+          <span class="process-step__hint">▶</span>
+        </div>
         <span class="process-step__num">PASUL 1</span>
         <h3>Spălare</h3>
         <p>Îndepărtăm murdăria de la suprafață.</p>
       </div>
-      <div class="process-step">
-        <div class="process-step__icon">🫧</div>
+      <div class="process-step" data-video="images/cadru-spuma">
+        <div class="process-step__media">
+          <img class="process-step__poster" src="images/poster-spuma.jpg" alt="Spumă activă pe caroserie" loading="lazy" width="256" height="640">
+          <video class="process-step__video" muted loop playsinline preload="none"></video>
+          <span class="process-step__hint">▶</span>
+        </div>
         <span class="process-step__num">PASUL 2</span>
         <h3>Săpunire</h3>
         <p>Curățare profundă cu spumă activă.</p>
       </div>
-      <div class="process-step">
-        <div class="process-step__icon">💧</div>
+      <div class="process-step" data-video="images/cadru-clatire">
+        <div class="process-step__media">
+          <img class="process-step__poster" src="images/poster-clatire.jpg" alt="Clătire cu jet de apă" loading="lazy" width="176" height="640">
+          <video class="process-step__video" muted loop playsinline preload="none"></video>
+          <span class="process-step__hint">▶</span>
+        </div>
         <span class="process-step__num">PASUL 3</span>
         <h3>Clătire</h3>
         <p>Clătim și îndepărtăm reziduurile.</p>
       </div>
-      <div class="process-step">
-        <div class="process-step__icon">✨</div>
+      <div class="process-step" data-video="images/cadru-curat">
+        <div class="process-step__media">
+          <img class="process-step__poster" src="images/poster-curat.jpg" alt="Mașină curată și lucioasă" loading="lazy" width="460" height="1010">
+          <video class="process-step__video" muted loop playsinline preload="none"></video>
+          <span class="process-step__hint">▶</span>
+        </div>
         <span class="process-step__num">PASUL 4</span>
         <h3>Lucioasă</h3>
         <p>Strălucire și protecție de durată.</p>
@@ -442,5 +459,7 @@
 </div>
 
 <script src="js/main.js"></script>
+<script type="module" src="js/hero3d.js"></script>
+<script src="js/process-video.js"></script>
 </body>
 </html>
