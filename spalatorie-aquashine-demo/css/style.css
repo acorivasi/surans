@@ -253,6 +253,20 @@ a { color: var(--color-primary-dark); text-decoration: none; }
 .hero__stat b { display: block; font-family: var(--font-heading); font-size: 1.6rem; color: var(--color-dark-text); }
 .hero__stat span { font-size: 0.85rem; color: var(--color-dark-text-muted); }
 
+.hero__3d {
+  position: absolute;
+  top: 12%;
+  right: 7%;
+  width: 300px;
+  height: 210px;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 20px 30px rgba(0, 30, 60, 0.45));
+}
+@media (max-width: 980px) {
+  .hero__3d { display: none; }
+}
+
 /* ---------- Cum lucrăm (proces în 4 pași) ---------- */
 .process {
   background: linear-gradient(180deg, var(--color-dark-bg) 0%, var(--color-dark-bg-2) 100%);
