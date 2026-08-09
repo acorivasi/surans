@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LocLiber — Găsește loc de parcare în Sectorul 2, București</title>
+<meta name="description" content="Prototip demo: hartă comunitară cu locuri de parcare libere raportate de vecini, plus locuri private de închiriat în Sectorul 2, București.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="logo">Loc<span>Liber</span></div>
+    <nav class="nav">
+      <a href="#harta">Hartă live</a>
+      <a href="#privat">Locuri private</a>
+      <a href="#cum-functioneaza">Cum funcționează</a>
+    </nav>
+    <span class="badge-demo">Prototip demo</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <h1>Nu mai da ture după loc de parcare în Sectorul 2</h1>
+    <p>O hartă comunitară cu locuri libere raportate de vecini, plus locuri private de închiriat lângă tine — actualizată în timp real de oamenii din cartier.</p>
+    <div class="hero-cta">
+      <a href="#harta" class="btn btn-primary">Vezi harta live</a>
+      <a href="#privat" class="btn btn-secondary">Închiriază / listează un loc</a>
+    </div>
+  </div>
+</section>
+
+<section class="stats" id="stats">
+  <div class="container stats-inner">
+    <div class="stat">
+      <div class="stat-value" id="stat-free">–</div>
+      <div class="stat-label">locuri publice libere acum</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="stat-total">–</div>
+      <div class="stat-label">locuri raportate de comunitate</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="stat-private">–</div>
+      <div class="stat-label">locuri private disponibile</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="harta">
+  <div class="container">
+    <h2>Harta locurilor de parcare</h2>
+    <p class="section-lead">Verde = liber &nbsp;•&nbsp; Roșu = ocupat &nbsp;•&nbsp; Albastru = loc privat de închiriat. Dă click pe orice marker de pe stradă și raportează statusul — exact ca și cum ai fi acolo.</p>
+    <div id="map"></div>
+    <div class="map-actions">
+      <button class="btn btn-ghost" id="reset-demo">Resetează demo-ul</button>
+      <span class="hint">Datele sunt simulate local în acest prototip (nu există încă server / cont real).</span>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="cum-functioneaza">
+  <div class="container">
+    <h2>Cum funcționează</h2>
+    <div class="how-grid">
+      <div class="how-col">
+        <h3>Locuri publice (gratuite)</h3>
+        <ol>
+          <li>Parchezi și dai <strong>„Am parcat aici"</strong> — locul devine roșu pentru toți ceilalți.</li>
+          <li>Când pleci, dai <strong>„Am plecat / e liber"</strong> — locul devine verde instant.</li>
+          <li>Alți vecini care caută loc lângă blocul tău îl văd imediat pe hartă.</li>
+        </ol>
+      </div>
+      <div class="how-col">
+        <h3>Locuri private (plătite)</h3>
+        <ol>
+          <li>Ai o curte, garaj sau loc de birou liber? Îl <strong>listezi</strong> cu preț/oră sau /zi.</li>
+          <li>Un vecin caută pe hartă și trimite o <strong>cerere de rezervare</strong>.</li>
+          <li>Confirmi rezervarea și încasezi contravaloarea — noi reținem un comision mic.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="privat">
+  <div class="container">
+    <h2>Locuri private disponibile acum</h2>
+    <p class="section-lead">Proprietari din cartier care își închiriază locul de parcare neutilizat.</p>
+    <div class="private-grid" id="private-list"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="logo">Loc<span>Liber</span></div>
+      <p>Prototip pentru validarea ideii — Sectorul 2, București.</p>
+    </div>
+    <p class="footer-note">Acesta este un demo funcțional cu date simulate, construit pentru testare și feedback din comunitate — nu este încă o aplicație live.</p>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="booking-modal">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <h3 id="modal-title">Rezervă locul</h3>
+    <p id="modal-subtitle"></p>
+    <form id="booking-form">
+      <label>Data
+        <input type="date" id="booking-date" required>
+      </label>
+      <label>Ora de start
+        <input type="time" id="booking-time" required>
+      </label>
+      <label>Durată (ore)
+        <input type="number" id="booking-duration" min="1" max="24" value="2" required>
+      </label>
+      <div class="modal-price" id="modal-price"></div>
+      <button type="submit" class="btn btn-primary btn-block">Trimite cererea</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="js/main.js"></script>
+</body>
+</html>
