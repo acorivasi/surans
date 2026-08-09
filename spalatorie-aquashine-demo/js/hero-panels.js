@@ -19,9 +19,9 @@
   const NATURAL_H = 929;
   // Poziția (x) a celor 3 tăieturi diagonale, sus și jos, în pixeli din poza originală.
   const cuts = [
-    { top: 380, bottom: 470 },
-    { top: 845, bottom: 935 },
-    { top: 1175, bottom: 1270 },
+    { top: 470, bottom: 380 },
+    { top: 935, bottom: 845 },
+    { top: 1270, bottom: 1175 },
   ];
 
   let toFrac = (imgX) => imgX / NATURAL_W; // fallback simplu, înlocuit după calcul
