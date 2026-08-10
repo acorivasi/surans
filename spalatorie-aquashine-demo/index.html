@@ -102,6 +102,20 @@
 
 <section class="hero" id="acasa">
   <img class="hero__bg" src="images/hero-photo.jpg" alt="Mașină BMW în timpul spălării la AquaShine Car Wash, de la caroserie murdară la luciu impecabil" loading="eager" width="1693" height="929">
+  <div class="hero__panels" aria-hidden="true">
+    <div class="hero__panel hero__panel--1" data-video="images/cadru-murdar">
+      <video class="hero__panel-video" muted loop playsinline preload="none"></video>
+    </div>
+    <div class="hero__panel hero__panel--2" data-video="images/cadru-spuma">
+      <video class="hero__panel-video" muted loop playsinline preload="none"></video>
+    </div>
+    <div class="hero__panel hero__panel--3" data-video="images/cadru-clatire">
+      <video class="hero__panel-video" muted loop playsinline preload="none"></video>
+    </div>
+    <div class="hero__panel hero__panel--4" data-video="images/cadru-curat">
+      <video class="hero__panel-video" muted loop playsinline preload="none"></video>
+    </div>
+  </div>
   <canvas id="hero3d" class="hero__3d" aria-hidden="true"></canvas>
   <div class="container hero__grid">
     <div class="hero__text">
@@ -461,5 +475,6 @@
 <script src="js/main.js"></script>
 <script type="module" src="js/hero3d.js"></script>
 <script src="js/process-video.js"></script>
+<script src="js/hero-panels.js"></script>
 </body>
 </html>

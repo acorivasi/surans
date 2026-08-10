@@ -234,9 +234,9 @@ a { color: var(--color-primary-dark); text-decoration: none; }
   position: absolute;
   inset: 0;
   background: linear-gradient(100deg,
-    rgba(7, 11, 18, 0.97) 0%,
-    rgba(7, 11, 18, 0.9) 34%,
-    rgba(7, 11, 18, 0.55) 55%,
+    rgba(7, 11, 18, 0.82) 0%,
+    rgba(7, 11, 18, 0.72) 34%,
+    rgba(7, 11, 18, 0.5) 55%,
     rgba(13, 24, 38, 0.15) 78%,
     rgba(13, 24, 38, 0.02) 92%);
   z-index: 1;
@@ -252,6 +252,58 @@ a { color: var(--color-primary-dark); text-decoration: none; }
 .hero__stats { display: flex; gap: 32px; margin-top: 40px; }
 .hero__stat b { display: block; font-family: var(--font-heading); font-size: 1.6rem; color: var(--color-dark-text); }
 .hero__stat span { font-size: 0.85rem; color: var(--color-dark-text-muted); }
+
+.hero__panels {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero__panel {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.hero__panel.is-playing { opacity: 1; }
+.hero__panel-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(1.25) contrast(1.05);
+}
+.hero__panel--1 .hero__panel-video {
+  filter: brightness(1.7) contrast(1.15) saturate(1.1);
+}
+/* Geometrie identică cu tăieturile diagonale din poza originală (1693px lățime) */
+.hero__panel--1 {
+  left: 0%;
+  width: 27.77%;
+  clip-path: polygon(0% 0%, 80.85% 0%, 100% 100%, 0% 100%);
+}
+.hero__panel--2 {
+  left: 22.44%;
+  width: 32.78%;
+  clip-path: polygon(0% 0%, 83.78% 0%, 100% 100%, 16.22% 100%);
+}
+.hero__panel--3 {
+  left: 49.91%;
+  width: 25.10%;
+  clip-path: polygon(0% 0%, 77.65% 0%, 100% 100%, 21.18% 100%);
+}
+.hero__panel--4 {
+  left: 69.40%;
+  width: 30.60%;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 18.34% 100%);
+}
+@media (max-width: 700px) {
+  .hero__panels { display: none; }
+}
 
 .hero__3d {
   position: absolute;
