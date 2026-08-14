@@ -1,11 +1,11 @@
-# Zâmbet Studio Dentar — website demo
+# BrightSmile Dental Care — website demo
 
 Website demo (7 pagini) pentru o clinică stomatologică, construit pe designul ACCsite (mozaic-puzzle interactiv, forme rotunjite, animații) și re-tematizat pentru domeniul stomatologic.
 
 ## Structură
 
 ```
-zambet-studio-dentar-demo/
+brightsmile-dental-demo/
 ├── index.html        Acasă — hero + mozaic puzzle (6 scene din clinică)
 ├── despre.html        Despre noi / poveste / echipă
 ├── servicii.html       Servicii & prețuri (pe categorii)
@@ -47,7 +47,7 @@ Toate imaginile din `images/` sunt placeholder-uri SVG generate — trebuie înl
 - Zonă copii: `Friendly pediatric dental corner, colorful but calm, small chairs, toys, warm inviting lighting, 4k`
 
 ### 2. Nume, contact, adresă
-Numele „Zâmbet Studio Dentar", adresa, telefonul (`0740223456`) și emailul sunt fictive — actualizează-le peste tot (`tel:`/`wa.me` links apar în toate paginile).
+Numele „BrightSmile Dental Care", adresa, telefonul (`0740223456`) și emailul sunt fictive — actualizează-le peste tot (`tel:`/`wa.me` links apar în toate paginile).
 
 ### 3. Configurare domeniu + hosting
 Recomandat: **Netlify**, **Vercel** sau **GitHub Pages** (gratuite, HTTPS automat).

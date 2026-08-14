@@ -1,4 +1,4 @@
-// Zâmbet Studio Dentar — interactions
+// BrightSmile Dental Care — interactions
 
 document.addEventListener("DOMContentLoaded", () => {
   initNav();
