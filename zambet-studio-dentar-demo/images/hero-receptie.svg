@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="700" viewBox="0 0 700 700">
+  <defs>
+    <linearGradient id="g_hero_receptie" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#5fb3e8"/>
+      <stop offset="100%" stop-color="#1f6fa8"/>
+    </linearGradient>
+  </defs>
+  <rect width="700" height="700" fill="url(#g_hero_receptie)"/>
+  <text x="50%" y="50%" font-family="Georgia, serif" font-size="160" fill="#ffffff" fill-opacity="0.85" text-anchor="middle" dominant-baseline="middle">🛋️</text>
+</svg>
